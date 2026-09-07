@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4F0E4">
+<meta name="description" content="حاسبة علمية شاملة للطلاب: عمليات، كسور، معادلات، هندسة، إحصاء، تحويل وحدات، نسب مئوية وجدول ضرب — كل الحسابات داخل متصفحك، على أي جهاز.">
+<title>المسطرة — حاسبة الطالب الشاملة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E4; --card:#FFFDF7; --ink:#232720; --ink2:#6B6E60;
+  --line:#E2DBC6; --line2:#C9C1A6; --brand:#1C6A4F; --brand2:#14523C;
+  --accent:#C05B2E; --err:#B3401A; --ok:#1C6A4F;
+  --screen:#15271F; --scr-dim:#7FA891; --scr-lit:#EEF7EF;
+  --mono:'IBM Plex Mono',ui-monospace,'Courier New',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  color:var(--ink);background-color:var(--paper);
+  background-image:linear-gradient(rgba(35,39,32,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(35,39,32,.045) 1px,transparent 1px);
+  background-size:28px 28px;line-height:1.6;
+}
+button,input,select{font-family:inherit;font-size:16px;color:var(--ink)}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 40px}
+
+/* ===== الهيدر ===== */
+header.site{display:flex;align-items:center;gap:14px;padding:6px 2px 18px}
+.logo{flex:0 0 auto}
+header.site h1{font-size:26px;font-weight:700;letter-spacing:-.3px}
+header.site h1 em{font-style:normal;color:var(--brand)}
+.tag{font-size:13px;color:var(--ink2);margin-top:2px}
+
+/* ===== التبويبات ===== */
+nav.tabs{position:sticky;top:0;z-index:30;background:var(--paper);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line2);
+  margin:0 -16px;padding:8px 16px;display:flex;gap:8px;overflow-x:auto;
+  scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;display:flex;align-items:center;gap:7px;background:var(--card);
+  border:1px solid var(--line2);border-radius:999px;padding:7px 14px 6px;
+  color:var(--ink2);font-size:14px;font-weight:500;touch-action:manipulation;
+  transition:background .15s,color .15s}
+.tab .tic{font-family:var(--mono);font-size:14px;opacity:.75;min-width:16px;text-align:center}
+.tab.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tab.on .tic{opacity:.9}
+
+/* ===== الأقسام ===== */
+section.tool{display:none;padding-top:22px}
+section.tool.on{display:block;animation:fadein .18s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.tool-head h2{font-size:21px;margin-bottom:2px}
+.tool-head p{font-size:13.5px;color:var(--ink2);margin-bottom:16px}
+.panel{background:var(--card);border:1px solid var(--line2);border-radius:16px;
+  padding:18px;box-shadow:4px 4px 0 rgba(35,39,32,.05);margin-bottom:18px}
+.panel h3{font-size:15px;margin-bottom:12px;color:var(--ink)}
+.hint{font-size:13px;color:var(--ink2)}
+.errm{font-size:13.5px;color:var(--err);background:#F9EDE4;border:1px solid #E5C4AE;
+  border-radius:10px;padding:8px 12px;margin:8px 0}
+.note{font-size:13.5px;color:var(--ink2);background:#F6F3E7;border:1px dashed var(--line2);
+  border-radius:10px;padding:8px 12px;margin:8px 0}
+
+/* ===== نماذج ===== */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:13px;color:var(--ink2)}
+.inp{background:#fff;border:1px solid var(--line2);border-radius:10px;
+  padding:10px 12px;outline:none;min-width:0;width:100%;transition:border-color .15s}
+.inp:focus{border-color:var(--brand);box-shadow:0 0 0 2px rgba(28,106,79,.14)}
+.inp.num{font-family:var(--mono);direction:ltr;text-align:right}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px 14px}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr 1fr}}
+
+/* ===== صفوف النتائج ===== */
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  border-bottom:1px dotted var(--line2);padding:8px 0;font-size:14.5px}
+.kv span{color:var(--ink2)}
+.kv b{font-family:var(--mono);font-weight:500;font-size:15px;direction:ltr;
+  text-align:left;overflow-x:auto;white-space:nowrap;max-width:60%}
+.kv b::-webkit-scrollbar{display:none}
+.kv .fm{font-style:normal;font-family:var(--mono);font-size:12.5px;opacity:.65;direction:ltr;display:inline-block;margin-inline-start:6px}
+.steps{margin-top:12px;border-right:3px solid var(--brand);border-radius:2px;
+  background:#F5F3E8;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
+.step{font-family:var(--mono);font-size:13.5px;direction:ltr;text-align:left;color:#31362D}
+.st{display:flex;justify-content:space-between;gap:10px;font-size:13.5px}
+.st span{color:var(--ink2)}
+.st b{font-family:var(--mono);font-weight:500;direction:ltr;white-space:nowrap}
+.big-res{font-family:var(--mono);direction:ltr;text-align:center;font-size:clamp(24px,6vw,34px);
+  color:var(--brand2);padding:10px 0 4px;word-break:break-all}
+
+/* ===== الحاسبة ===== */
+.calc-layout{position:relative}
+.calc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.mini-btn{background:var(--card);border:1px solid var(--line2);border-radius:9px;
+  padding:5px 12px;font-size:12.5px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.mini-btn:active{transform:translateY(1px)}
+.seg{display:flex;border:1px solid var(--line2);border-radius:9px;overflow:hidden}
+.seg button{background:var(--card);border:0;padding:5px 12px;font-size:12.5px;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.screen{background:var(--screen);border:1px solid #0D1B15;border-radius:14px;
+  padding:16px 18px 14px;min-height:116px;display:flex;flex-direction:column;
+  justify-content:flex-end;gap:5px;box-shadow:inset 0 2px 10px rgba(0,0,0,.35)}
+.scr-sm{font-family:var(--mono);direction:ltr;text-align:right;font-size:15px;
+  color:var(--scr-dim);overflow-x:auto;white-space:nowrap;min-height:22px;scrollbar-width:none}
+.scr-sm::-webkit-scrollbar{display:none}
+.scr-big{font-family:var(--mono);direction:ltr;text-align:right;font-weight:500;
+  font-size:clamp(30px,8vw,42px);color:#6E9682;overflow-x:auto;white-space:nowrap;
+  min-height:46px;scrollbar-width:none}
+.scr-big::-webkit-scrollbar{display:none}
+.scr-big.lit{color:var(--scr-lit)}
+.scr-err{color:var(--err);font-size:12.5px;min-height:19px;padding:4px 2px}
+#keypad{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px;
+  grid-auto-rows:58px}
+.k-btn{border:1px solid var(--line2);border-radius:11px;background:#fff;
+  font-size:18px;font-weight:500;box-shadow:2.5px 2.5px 0 var(--line2);
+  touch-action:manipulation;user-select:none;-webkit-user-select:none;
+  display:flex;align-items:center;justify-content:center;transition:box-shadow .06s}
+.k-btn:active{transform:translate(1.5px,1.5px);box-shadow:1px 1px 0 var(--line2)}
+.k-fn{background:#F4F1E0;color:#41544A;font-size:16px}
+.k-op{background:#F4F1E0;color:var(--brand2);font-size:20px}
+.k-back{background:#F4F1E0;color:var(--accent);font-size:20px}
+.k-ac{background:#FAEDE4;border-color:#E3C2AB;box-shadow:2.5px 2.5px 0 #E3C2AB;color:var(--err);font-size:16px}
+.k-ac:active{box-shadow:1px 1px 0 #E3C2AB}
+.k-inv{background:#EDEFE6;color:var(--brand2);font-size:13.5px}
+.k-inv.on{background:var(--brand2);color:#fff;border-color:var(--brand2);box-shadow:2.5px 2.5px 0 #A9C3B4}
+.k-eq{background:var(--brand);border-color:var(--brand2);color:#fff;
+  box-shadow:2.5px 2.5px 0 var(--brand2);font-size:22px}
+.k-eq:active{box-shadow:1px 1px 0 var(--brand2)}
+@media(max-width:480px){
+  #keypad{grid-auto-rows:52px;gap:6px}
+  .k-btn{font-size:16.5px;border-radius:10px}
+}
+/* السجل */
+.hist-pane{display:none;margin-top:14px}
+.calc-layout.hist-open .hist-pane{display:block}
+.hist-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hist-head h3{font-size:14px;color:var(--ink2);font-weight:500}
+.h-clear{background:none;border:1px solid var(--line2);border-radius:8px;
+  padding:4px 10px;font-size:12px;color:var(--err)}
+.h-list{max-height:300px;overflow-y:auto;border:1px solid var(--line);
+  border-radius:12px;background:#fff}
+.h-item{padding:9px 14px;border-bottom:1px solid var(--line);cursor:pointer;
+  display:flex;flex-direction:column;gap:1px}
+.h-item:hover{background:#F6F4E9}
+.h-item:last-child{border-bottom:0}
+.h-x{font-family:var(--mono);direction:ltr;text-align:right;font-size:13px;color:var(--ink2)}
+.h-r{font-family:var(--mono);direction:ltr;text-align:right;font-size:16px;color:var(--brand2)}
+.h-empty{padding:18px 14px;text-align:center;font-size:13px;color:var(--ink2)}
+@media(min-width:880px){
+  .calc-layout{display:grid;grid-template-columns:minmax(0,470px) 1fr;gap:20px;align-items:start}
+  .hist-pane{display:block;margin-top:0}
+  #histBtn{display:none}
+}
+
+/* ===== الكسور ===== */
+.fbar{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.frx{display:flex;flex-direction:column;align-items:center;gap:2px}
+.frx .cap{font-size:12px;color:var(--ink2);margin-top:5px}
+.frx input{width:86px;text-align:center;font-family:var(--mono);direction:ltr;
+  padding:8px 6px;border:1px solid var(--line2);border-radius:9px;outline:none}
+.frx input:focus{border-color:var(--brand)}
+.fr-line{width:74px;height:2.5px;background:var(--ink);border-radius:2px}
+.fr{display:inline-flex;flex-direction:column;align-items:center;line-height:1.15;
+  font-family:var(--mono);vertical-align:middle;font-weight:500}
+.fr i{display:block;width:100%;min-width:34px;height:2px;background:currentColor;
+  border-radius:2px;margin:3px 0;opacity:.85}
+.fr.res{font-size:26px;color:var(--brand2)}
+.fr.mid{font-size:17px}
+.mixw{font-family:var(--mono);font-size:20px;color:var(--brand2);margin-inline-start:8px}
+#f2wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.op-sel{border:1px solid var(--line2);border-radius:10px;padding:9px 10px;background:#fff;outline:none}
+
+/* ===== صفوف المعادلات المطبوعة ===== */
+.eqrow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  font-family:var(--mono);direction:ltr;margin:14px 0}
+.eqrow input{width:78px;text-align:center;font-family:var(--mono);direction:ltr;
+  padding:9px 4px;border:1px solid var(--line2);border-radius:9px;outline:none;font-size:16px}
+.eqrow input:focus{border-color:var(--brand)}
+.eqrow input::placeholder{color:#BFB9A3;font-family:'IBM Plex Sans Arabic'}
+.eqrow .sym{color:var(--ink2);font-size:17px;white-space:nowrap}
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.subtab{border:1px solid var(--line2);background:var(--card);border-radius:999px;
+  padding:6px 14px;font-size:13.5px;color:var(--ink2)}
+.subtab.on{background:var(--brand2);border-color:var(--brand2);color:#fff}
+
+/* ===== الإحصاء ===== */
+#stIn{width:100%;font-family:var(--mono);direction:ltr;text-align:right;
+  padding:11px 12px;border:1px solid var(--line2);border-radius:10px;outline:none}
+#stIn:focus{border-color:var(--brand)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:130px;padding:8px 4px 0;
+  border-bottom:2px solid var(--ink2);margin-top:16px;direction:ltr;overflow-x:auto}
+.bar{flex:1;min-width:26px;display:flex;flex-direction:column;justify-content:flex-end;
+  align-items:center;gap:3px;height:100%}
+.bv{font-family:var(--mono);font-size:11px;color:var(--brand2)}
+.bcol{width:100%;max-width:44px;background:var(--brand);border-radius:4px 4px 0 0;min-height:3px}
+.bl{font-family:var(--mono);font-size:11px;color:var(--ink2);margin-top:4px}
+
+/* ===== الوحدات والنسب ===== */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{border:1px solid var(--line2);background:var(--card);border-radius:999px;
+  padding:5px 13px;font-size:13.5px;color:var(--ink2)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.unitrow{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:14px}
+@media(max-width:480px){.unitrow{grid-template-columns:1fr}}
+#unitOut .kv b{color:var(--brand2)}
+.p-big{font-family:var(--mono);direction:ltr;text-align:center;font-size:clamp(26px,7vw,36px);
+  color:var(--brand2);padding:8px 0;word-break:break-all}
+
+/* ===== جدول الضرب ===== */
+.tbl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:2px 14px}
+.trow{font-family:var(--mono);direction:ltr;text-align:right;font-size:15.5px;
+  border-bottom:1px dotted var(--line);padding:7px 2px;color:#33382F}
+.trow:hover{color:var(--brand2)}
+.trow b{color:var(--brand2);font-weight:700}
+.quiz{margin-top:20px;border-top:1px dashed var(--line2);padding-top:16px}
+.qz-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.qz-head h3{font-size:16px}
+#qzBest{font-size:12.5px;color:var(--ink2)}
+#qzStart{background:var(--brand);color:#fff;border:1px solid var(--brand2);
+  border-radius:11px;padding:10px 22px;font-size:15px;box-shadow:2.5px 2.5px 0 var(--brand2)}
+#qzStart:active{transform:translate(1.5px,1.5px);box-shadow:1px 1px 0 var(--brand2)}
+.qz-prog{font-size:12.5px;color:var(--ink2);margin-bottom:6px}
+.qz-q{font-family:var(--mono);direction:ltr;text-align:center;font-size:clamp(30px,8vw,40px);
+  color:var(--ink);margin:8px 0}
+.qz-inrow{display:flex;justify-content:center;gap:10px;align-items:center}
+#qzIn{width:110px;text-align:center;font-family:var(--mono);font-size:20px;
+  padding:9px;border:1px solid var(--line2);border-radius:10px;outline:none}
+#qzIn:focus{border-color:var(--brand)}
+#qzCheck{background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+  border-radius:10px;padding:10px 20px;font-size:14.5px}
+.qz-feed{text-align:center;font-size:14px;margin-top:10px;min-height:22px;color:var(--ink2)}
+.qz-feed.ok{color:var(--ok);font-weight:500}
+.qz-feed.err{color:var(--err);font-weight:500}
+
+/* ===== توست وفوتر ===== */
+#toast{position:fixed;bottom:24px;right:50%;transform:translate(50%,16px);
+  background:var(--ink);color:var(--paper);padding:9px 20px;border-radius:999px;
+  font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:99}
+#toast.show{opacity:1;transform:translate(50%,0)}
+footer{border-top:1px solid var(--line2);margin-top:30px;padding-top:16px;
+  font-size:12.5px;color:var(--ink2);text-align:center}
+::selection{background:#CFE4D8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <svg class="logo" width="46" height="46" viewBox="0 0 48 48" aria-hidden="true">
+    <path d="M10 8 L10 40 L42 8 Z" fill="none" stroke="#232720" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M10 22h6 M10 28h5 M10 34h4" stroke="#232720" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <path d="M20 8v5 M28 8v5 M36 8v5" stroke="#232720" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+  </svg>
+  <div>
+    <h1>المِسطرة <em>— حاسبة الطالب الشاملة</em></h1>
+    <div class="tag">حاسبة علمية، كسور، معادلات، هندسة، إحصاء، وحدات، نسب وجدول ضرب — من الابتدائي إلى الجامعة، على أي جهاز.</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab" data-t="calc"><span class="tic">√</span>حاسبة علمية</button>
+  <button class="tab" data-t="frac"><span class="tic">½</span>الكسور</button>
+  <button class="tab" data-t="eq"><span class="tic">ƒ</span>المعادلات</button>
+  <button class="tab" data-t="geo"><span class="tic">△</span>الهندسة</button>
+  <button class="tab" data-t="stats"><span class="tic">∑</span>الإحصاء</button>
+  <button class="tab" data-t="units"><span class="tic">⇄</span>تحويل الوحدات</button>
+  <button class="tab" data-t="percent"><span class="tic">٪</span>النسب المئوية</button>
+  <button class="tab" data-t="table"><span class="tic">×</span>جدول الضرب</button>
+</nav>
+
+<main>
+
+<!-- ==================== الحاسبة العلمية ==================== -->
+<section class="tool" id="sec-calc">
+  <div class="calc-layout" id="calcWrap">
+    <div class="calc-main">
+      <div class="calc-top">
+        <div class="seg" id="degseg">
+          <button id="degBtn" type="button" class="on">درجة</button>
+          <button id="radBtn" type="button">راديان</button>
+        </div>
+        <button id="copyBtn" type="button" class="mini-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          نسخ النتيجة
+        </button>
+        <button id="histBtn" type="button" class="mini-btn">السجل</button>
+      </div>
+      <div class="screen">
+        <div class="scr-sm" id="exprS" dir="ltr"></div>
+        <div class="scr-big" id="bigS" dir="ltr"></div>
+      </div>
+      <div class="scr-err" id="errS"></div>
+      <div id="keypad"></div>
+    </div>
+    <aside class="hist-pane panel">
+      <div class="hist-head">
+        <h3>سجل العمليات (يُحفظ في جهازك)</h3>
+        <button class="h-clear" id="histClear" type="button">مسح الكل</button>
+      </div>
+      <div class="h-list" id="histList"></div>
+    </aside>
+  </div>
+  <p class="hint" style="margin-top:12px">دعم كامل للوحة المفاتيح: الأرقام و <span dir="ltr">+ − × ÷ ^ ( ) !</span> و Enter للحساب و Backspace و Esc. تعمل الأقواس الناقصة تلقائيًا عند الحساب.</p>
+</section>
+
+<!-- ==================== الكسور ==================== -->
+<section class="tool" id="sec-frac">
+  <div class="tool-head">
+    <h2>حاسبة الكسور</h2>
+    <p>جمع وطرح وضرب وقسمة وتبسيط الكسور — مع خطوات الحل كاملة كما تُطلب في الامتحان.</p>
+  </div>
+  <div class="panel">
+    <div class="fbar">
+      <div class="frx">
+        <input id="f1n" inputmode="numeric" placeholder="1">
+        <span class="fr-line"></span>
+        <input id="f1d" inputmode="numeric" placeholder="2">
+        <span class="cap">الكسر الأول</span>
+      </div>
+      <select id="fop" class="op-sel">
+        <option value="add">+</option>
+        <option value="sub">−</option>
+        <option value="mul">×</option>
+        <option value="div">÷</option>
+        <option value="simp">تبسيط</option>
+      </select>
+      <div id="f2wrap">
+        <div class="frx">
+          <input id="f2n" inputmode="numeric" placeholder="2">
+          <span class="fr-line"></span>
+          <input id="f2d" inputmode="numeric" placeholder="3">
+          <span class="cap">الكسر الثاني</span>
+        </div>
+      </div>
+    </div>
+    <div id="fracOut"></div>
+  </div>
+</section>
+
+<!-- ==================== المعادلات ==================== -->
+<section class="tool" id="sec-eq">
+  <div class="tool-head">
+    <h2>حل المعادلات</h2>
+    <p>اكتب معاملات المعادلة مباشرة في الصيغة — تظهر الجذور والخطوات فورًا.</p>
+  </div>
+  <div class="panel">
+    <div class="subtabs">
+      <button class="subtab on" data-e="q" type="button">معادلة تربيعية</button>
+      <button class="subtab" data-e="l" type="button">معادلة خطية</button>
+      <button class="subtab" data-e="s" type="button">نظام معادلتين</button>
+    </div>
+
+    <div id="eqQ">
+      <div class="eqrow">
+        <input id="qa" inputmode="decimal" placeholder="a"><span class="sym">x² +</span>
+        <input id="qb" inputmode="decimal" placeholder="b"><span class="sym">x +</span>
+        <input id="qc" inputmode="decimal" placeholder="c"><span class="sym">= 0</span>
+      </div>
+      <div id="qOut"></div>
+    </div>
+
+    <div id="eqL" hidden>
+      <div class="eqrow">
+        <input id="la" inputmode="decimal" placeholder="a"><span class="sym">x +</span>
+        <input id="lb" inputmode="decimal" placeholder="b"><span class="sym">=</span>
+        <input id="lc" inputmode="decimal" placeholder="c">
+      </div>
+      <div id="lOut"></div>
+    </div>
+
+    <div id="eqS" hidden>
+      <div class="eqrow">
+        <input id="sa1" inputmode="decimal" placeholder="a₁"><span class="sym">x +</span>
+        <input id="sb1" inputmode="decimal" placeholder="b₁"><span class="sym">y =</span>
+        <input id="sc1" inputmode="decimal" placeholder="c₁">
+      </div>
+      <div class="eqrow">
+        <input id="sa2" inputmode="decimal" placeholder="a₂"><span class="sym">x +</span>
+        <input id="sb2" inputmode="decimal" placeholder="b₂"><span class="sym">y =</span>
+        <input id="sc2" inputmode="decimal" placeholder="c₂">
+      </div>
+      <div id="sOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== الهندسة ==================== -->
+<section class="tool" id="sec-geo">
+  <div class="tool-head">
+    <h2>المساحات والأحجام وفيثاغورس</h2>
+    <p>اختر الشكل، أدخل القياسات — تظهر المساحة والمحيط أو الحجم مع القانون المستخدم.</p>
+  </div>
+  <div class="panel">
+    <div class="field">
+      <label>اختر الشكل</label>
+      <select id="shapeSel" class="inp"></select>
+    </div>
+    <div id="shapeFields" class="fgrid"></div>
+    <div id="shapeOut"></div>
+  </div>
+  <div class="panel">
+    <h3>نظرية فيثاغورس — املأ أي ضلعين وسيُحسب الثالث</h3>
+    <div class="eqrow">
+      <input id="pa" inputmode="decimal" placeholder="a"><span class="sym">² +</span>
+      <input id="pb" inputmode="decimal" placeholder="b"><span class="sym">² =</span>
+      <input id="pc" inputmode="decimal" placeholder="c"><span class="sym">²</span>
+    </div>
+    <div id="pyOut"></div>
+  </div>
+</section>
+
+<!-- ==================== الإحصاء ==================== -->
+<section class="tool" id="sec-stats">
+  <div class="tool-head">
+    <h2>مقاييس النزعة المركزية والتشتت</h2>
+    <p>أدخل الأعداد مفصولة بمسافة أو فاصلة أو سطر جديد — كل المقايعات ورسم التوزيع فوري.</p>
+  </div>
+  <div class="panel">
+    <div class="field">
+      <label>البيانات</label>
+      <input id="stIn" placeholder="مثال: 7 8 9 8 10 7 6 8">
+    </div>
+    <div id="stOut"></div>
+    <div id="stBars"></div>
+  </div>
+</section>
+
+<!-- ==================== الوحدات ==================== -->
+<section class="tool" id="sec-units">
+  <div class="tool-head">
+    <h2>تحويل الوحدات</h2>
+    <p>طول، كتلة، حرارة، مساحة، حجم، سرعة، زمن، بيانات وزوايا — النتيجة لكل الوحدات في وقت واحد.</p>
+  </div>
+  <div class="panel">
+    <div class="chips" id="unitTabs"></div>
+    <div class="unitrow">
+      <div class="field">
+        <label>القيمة</label>
+        <input id="uVal" class="inp num" inputmode="decimal" value="1">
+      </div>
+      <div class="field">
+        <label>الوحدة</label>
+        <select id="uFrom" class="inp"></select>
+      </div>
+    </div>
+    <div id="unitOut"></div>
+  </div>
+</section>
+
+<!-- ==================== النسب المئوية ==================== -->
+<section class="tool" id="sec-percent">
+  <div class="tool-head">
+    <h2>النسب المئوية</h2>
+    <p>أربع عمليات مختلفة: نسبة من قيمة، النسبة بين قيمتين، نسبة التغير، وقيمة بعد خصم أو زيادة.</p>
+  </div>
+  <div class="panel">
+    <div class="field">
+      <label>نوع العملية</label>
+      <select id="pMode" class="inp">
+        <option value="of">احسب ن ٪ من قيمة</option>
+        <option value="what">قيمة تمثل كم ٪ من قيمة أخرى</option>
+        <option value="chg">نسبة التغير بين قيمتين</option>
+        <option value="adj">قيمة بعد خصم أو زيادة ن ٪</option>
+      </select>
+    </div>
+    <div id="pFields" class="fgrid"></div>
+    <div id="pOut"></div>
+  </div>
+</section>
+
+<!-- ==================== جدول الضرب ==================== -->
+<section class="tool" id="sec-table">
+  <div class="tool-head">
+    <h2>جدول الضرب وتحدي السرعة</h2>
+    <p>استعرض أي جدول من ٢ إلى ١٢، ثم اختبر نفسك بعشرة أسئلة عشوائية.</p>
+  </div>
+  <div class="panel">
+    <div class="chips" id="tblTabs"></div>
+    <div id="tblNote"></div>
+    <div class="tbl-grid" id="tblGrid"></div>
+  </div>
+  <div class="panel quiz">
+    <div class="qz-head">
+      <h3>تحدي السرعة — ١٠ أسئلة</h3>
+      <span id="qzBest">لم تُسجّل نتيجة بعد</span>
+    </div>
+    <button id="qzStart" type="button">ابدأ التحدي</button>
+    <div id="qzBody" hidden>
+      <div class="qz-prog" id="qzProg"></div>
+      <div class="qz-q" id="qzQ"></div>
+      <div class="qz-inrow">
+        <input id="qzIn" inputmode="numeric" placeholder="؟" autocomplete="off">
+        <button id="qzCheck" type="button">تحقق</button>
+      </div>
+      <div class="qz-feed" id="qzFeed"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  صُنع للطلاب — كل الحسابات تجري داخل متصفحك دون أي اتصال بخادم، ويعمل الموقع على أي هاتف أو حاسوب مهما كانت مواصفاته.
+</footer>
+
+</div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ================= أدوات عامة ================= */
+function $(s){return document.querySelector(s)}
+function $$(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function load(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}}
+function vibrate(){try{if(navigator.vibrate)navigator.vibrate(8)}catch(e){}}
+var toastT;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},1700)}
+function fallbackCopy(t){
+  var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');toast('تم نسخ النتيجة')}catch(e){toast('تعذّر النسخ')}
+  document.body.removeChild(ta);
+}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('تم نسخ النتيجة')},function(){fallbackCopy(t)})}
+  else fallbackCopy(t);
+}
+var SUPC='⁰¹²³⁴⁵⁶⁷⁸⁹';
+function fmt(x,p){
+  p=p||12;
+  if(typeof x==='number'){
+    if(isNaN(x))return'غير معرّف';
+    if(!isFinite(x))return'∞';
+    if(Math.abs(x)<1e-12)x=0;
+    var r=Math.round(x);
+    if(x!==0&&Math.abs(x-r)<1e-11*Math.max(1,Math.abs(x)))x=r;
+    var a=Math.abs(x);
+    if(a!==0&&(a>=1e13||a<1e-9)){
+      var s=x.toExponential(8),ei=s.indexOf('e');
+      var mant=s.slice(0,ei).replace(/0+$/,'').replace(/\.$/,'');
+      var ex=s.slice(ei+1),sg=(ex[0]==='-'),sup='';
+      for(var i=sg?1:0;i<ex.length;i++)sup+=SUPC[+ex[i]];
+      return mant+'×10'+(sg?'⁻':'')+sup;
+    }
+    return String(Number(x.toPrecision(p)));
+  }
+  return String(x);
+}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t}return a}
+function lcm(a,b){return a/gcd(a,b)*b}
+function kv(l,v){return '<div class="kv"><span>'+l+'</span><b>'+v+'</b></div>'}
+function step(t){return '<div class="step">'+t+'</div>'}
+function note(t){return '<div class="note">'+t+'</div>'}
+function errm(t){return '<div class="errm">'+t+'</div>'}
+function numV(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
+function intV(id){var v=parseInt($(id).value,10);return isNaN(v)?null:v}
+
+/* ================= المحرك الحسابي (بدون eval) ================= */
+var PI=Math.PI;
+var Calc={expr:'',justEv:false,lastAns:null,lastTxt:'',lastEq:'',deg:true,hist:load('mr_hist',[])};
+var OPMAP={'×':'*','÷':'/','−':'-','-':'-','+':'+','^':'pow'};
+
+function tokenize(src){
+  var T=[];
+  function push(t){
+    var p=T[T.length-1];
+    if(t&&(t.t==='num'||t.t==='lp'||t.t==='fn')&&p&&(p.t==='num'||p.t==='rp'||p.t==='post'))
+      T.push({t:'op',v:'*',prec:2,ra:false});
+    T.push(t);
+  }
+  var i=0,isD=function(c){return c>='0'&&c<='9'};
+  while(i<src.length){
+    var c=src[i];
+    if(c===' '){i++;continue}
+    if(isD(c)||c==='.'){
+      var j=i;while(j<src.length&&(isD(src[j])||src[j]==='.'))j++;
+      var s=src.slice(i,j);
+      if((s.match(/\./g)||[]).length>1)throw new Error('صيغة الرقم غير صحيحة');
+      var v=parseFloat(s);
+      if(isNaN(v))throw new Error('صيغة الرقم غير صحيحة');
+      push({t:'num',v:v});i=j;continue;
+    }
+    if(c==='π'){push({t:'num',v:PI});i++;continue}
+    if(c==='√'||c==='∛'){push({t:'fn',v:c==='√'?'sqrt':'cbrt'});i++;continue}
+    if(c==='!'){T.push({t:'post'});i++;continue}
+    if(c==='('){push({t:'lp'});i++;continue}
+    if(c===')'){T.push({t:'rp'});i++;continue}
+    if(OPMAP[c]||c==='*'||c==='/'){
+      var op=OPMAP[c]||c,prev=T[T.length-1];
+      var opPos=(c==='*'||c==='/')?src.indexOf(c,i):i;
+      if(op==='+'&&(!prev||prev.t==='op'||prev.t==='lp'||prev.t==='fn'||prev.t==='un')){i++;continue}
+      var unary=(op==='-')&&(!prev||prev.t==='op'||prev.t==='lp'||prev.t==='un'||prev.t==='fn');
+      if(unary)T.push({t:'un'});
+      else T.push({t:'op',v:op,prec:(op==='+'||op==='-')?1:(op==='pow'?3:2),ra:op==='pow'});
+      i++;continue;
+    }
+    if(/[a-z]/i.test(c)){
+      var j2=i;while(j2<src.length&&/[a-z]/i.test(src[j2]))j2++;
+      var w=src.slice(i,j2).toLowerCase();i=j2;
+      if(w==='mod'){T.push({t:'op',v:'mod',prec:2,ra:false});continue}
+      if(w==='ans'){
+        if(Calc.lastAns===null)throw new Error('لا توجد نتيجة سابقة لـ ans');
+        push({t:'num',v:Calc.lastAns});continue;
+      }
+      var F={sin:1,cos:1,tan:1,asin:1,acos:1,atan:1,ln:1,log:1,sqrt:1,cbrt:1,abs:1,exp:1};
+      if(F[w]){
+        push({t:'fn',v:w});
+        if(src[i]!=='(')throw new Error('أضف قوسًا بعد '+w+' — مثال: '+w+'(30)');
+        continue;
+      }
+      if(w==='e'){push({t:'num',v:Math.E});continue}
+      throw new Error('رمز غير مفهوم: '+w);
+    }
+    throw new Error('رمز غير مفهوم');
+  }
+  return T;
+}
+
+function toRPN(T){
+  var out=[],ops=[],prev=null;
+  function prec(t){return t.t==='un'?2.5:(t.t==='fn'?4:t.prec)}
+  for(var k=0;k<T.length;k++){
+    var tk=T[k];
+    if(tk.t==='num'){out.push(tk);prev=tk;continue}
+    if(tk.t==='fn'||tk.t==='un'||tk.t==='lp'){ops.push(tk);prev=tk;continue}
+    if(tk.t==='rp'){
+      var f=false;
+      while(ops.length){var o=ops.pop();if(o.t==='lp'){f=true;break}out.push(o)}
+      if(!f)throw new Error('قوس إغلاق زائد');
+      if(ops.length&&ops[ops.length-1].t==='fn')out.push(ops.pop());
+      prev=tk;continue;
+    }
+    if(tk.t==='post'){
+      if(!prev||prev.t==='op'||prev.t==='un'||prev.t==='fn'||prev.t==='lp')throw new Error('موضع ! غير صالح');
+      out.push(tk);prev=tk;continue;
+    }
+    if(tk.t==='op'){
+      if(!prev||prev.t==='op'||prev.t==='un'||prev.t==='fn'||prev.t==='lp')throw new Error('تعبير غير مكتمل');
+      while(ops.length){
+        var top=ops[ops.length-1];
+        if(top.t==='lp')break;
+        var tp=prec(top);
+        if(tp>tk.prec||(tp===tk.prec&&!tk.ra))out.push(ops.pop());else break;
+      }
+      ops.push(tk);prev=tk;continue;
+    }
+  }
+  while(ops.length){
+    var o2=ops.pop();
+    if(o2.t==='lp'){if(ops.length&&ops[ops.length-1].t==='fn')out.push(ops.pop());continue}
+    out.push(o2);
+  }
+  return out;
+}
+
+function cleanNum(x){
+  if(typeof x!=='number'||!isFinite(x))return x;
+  if(Math.abs(x)<1e-12)return 0;
+  var r=Math.round(x);
+  if(x!==0&&Math.abs(x-r)<1e-11*Math.max(1,Math.abs(x)))return r;
+  return x;
+}
+
+function evalRPN(R){
+  var st=[],D=Calc.deg;
+  function need(){if(st.length===0)throw new Error('تعبير غير مكتمل')}
+  for(var i=0;i<R.length;i++){
+    var tk=R[i];
+    if(tk.t==='num'){st.push(tk.v);continue}
+    if(tk.t==='un'){need();st.push(-st.pop());continue}
+    if(tk.t==='fn'){
+      need();var a=st.pop(),r;
+      switch(tk.v){
+        case 'sin':r=Math.sin(D?a*PI/180:a);break;
+        case 'cos':r=Math.cos(D?a*PI/180:a);break;
+        case 'tan':
+          var tv=Math.tan(D?a*PI/180:a);
+          if(Math.abs(tv)>1e15)throw new Error('tan غير معرّفة عند '+fmt(a));
+          r=tv;break;
+        case 'asin':
+          if(a<-1||a>1)throw new Error('sin⁻¹ يقبل قيمًا بين −1 و 1 فقط');
+          r=D?Math.asin(a)*180/PI:Math.asin(a);break;
+        case 'acos':
+          if(a<-1||a>1)throw new Error('cos⁻¹ يقبل قيمًا بين −1 و 1 فقط');
+          r=D?Math.acos(a)*180/PI:Math.acos(a);break;
+        case 'atan':r=D?Math.atan(a)*180/PI:Math.atan(a);break;
+        case 'ln':
+          if(a<=0)throw new Error('ln يقبل أعدادًا موجبة فقط');
+          r=Math.log(a);break;
+        case 'log':
+          if(a<=0)throw new Error('log يقبل أعدادًا موجبة فقط');
+          r=Math.log10?Math.log10(a):Math.log(a)/Math.LN10;break;
+        case 'sqrt':
+          if(a<0)throw new Error('لا جذر تربيعي لعدد سالب في الأعداد الحقيقية');
+          r=Math.sqrt(a);break;
+        case 'cbrt':r=Math.cbrt?Math.cbrt(a):(a<0?-Math.pow(-a,1/3):Math.pow(a,1/3));break;
+        case 'abs':r=Math.abs(a);break;
+        case 'exp':r=Math.exp(a);break;
+      }
+      st.push(cleanNum(r));continue;
+    }
+    if(tk.t==='post'){
+      need();var f=st.pop();
+      if(f<0||f>170||f%1!==0)throw new Error('المعامل ! لعدد صحيح من 0 إلى 170');
+      var fr=1;for(var q=2;q<=f;q++)fr*=q;
+      st.push(fr);continue;
+    }
+    if(tk.t==='op'){
+      need();var b=st.pop();need();var a2=st.pop(),r2;
+      switch(tk.v){
+        case '+':r2=a2+b;break;
+        case '-':r2=a2-b;break;
+        case '*':r2=a2*b;break;
+        case '/':
+          if(b===0)throw new Error('لا يمكن القسمة على صفر');
+          r2=a2/b;break;
+        case 'pow':
+          r2=Math.pow(a2,b);
+          if(isNaN(r2))throw new Error('هذه العملية غير معرّفة في الأعداد الحقيقية');
+          break;
+        case 'mod':
+          if(b===0)throw new Error('mod لا يقبل مقامًا صفريًا');
+          r2=((a2%b)+b)%b;break;
+      }
+      st.push(cleanNum(r2));continue;
+    }
+  }
+  if(st.length!==1)throw new Error('تعبير غير صالح');
+  return st[0];
+}
+function evaluate(s){return evalRPN(toRPN(tokenize(s)))}
+
+/* ================= واجهة الحاسبة ================= */
+var inv=false,fnBtns=[];
+var FNDEF={
+  sin:{l:'sin',i:'sin(',il:'sin⁻¹',ii:'asin('},
+  cos:{l:'cos',i:'cos(',il:'cos⁻¹',ii:'acos('},
+  tan:{l:'tan',i:'tan(',il:'tan⁻¹',ii:'atan('},
+  ln:{l:'ln',i:'ln(',il:'eˣ',ii:'exp('},
+  log:{l:'log',i:'log(',il:'10ˣ',ii:'10^('},
+  sqrt:{l:'√',i:'√(',il:'∛',ii:'∛('},
+  sq:{l:'x²',i:'^2',il:'x³',ii:'^3',ap:true},
+  pow:{l:'xʸ',i:'^',il:'xʸ',ii:'^',ap:true}
+};
+var KEYS=[
+  [{k:'inv',l:'INV',cls:'k-inv'},{k:'fn',v:'sin'},{k:'fn',v:'cos'},{k:'fn',v:'tan'},{k:'fn',v:'ln'},{k:'fn',v:'log'}],
+  [{k:'fn',v:'sqrt'},{k:'fn',v:'sq'},{k:'fn',v:'pow'},{k:'ch',v:'π',cls:'k-fn'},{k:'ch',v:'e',cls:'k-fn'},{k:'ch',v:'!',cls:'k-fn'}],
+  [{k:'ch',v:'7'},{k:'ch',v:'8'},{k:'ch',v:'9'},{k:'ch',v:'÷',op:1,cls:'k-op'},{k:'ch',v:' mod ',op:1,cls:'k-op',l:'mod'},{k:'ac',l:'AC',cls:'k-ac'}],
+  [{k:'ch',v:'4'},{k:'ch',v:'5'},{k:'ch',v:'6'},{k:'ch',v:'×',op:1,cls:'k-op'},{k:'ch',v:'(',cls:'k-fn'},{k:'back',l:'⌫',cls:'k-back'}],
+  [{k:'ch',v:'1'},{k:'ch',v:'2'},{k:'ch',v:'3'},{k:'ch',v:'−',op:1,cls:'k-op'},{k:'ch',v:')',cls:'k-fn'},{k:'ans',l:'ans',cls:'k-fn'}],
+  [{k:'ch',v:'0'},{k:'ch',v:'.'},{k:'neg',l:'±',cls:'k-fn'},{k:'ch',v:'+',op:1,cls:'k-op'},{k:'eq',l:'=',cls:'k-eq',span:2}]
+];
+function buildKeypad(){
+  var kp=$('#keypad');
+  KEYS.forEach(function(row){
+    row.forEach(function(key){
+      var b=document.createElement('button');
+      b.type='button';
+      b.className='k-btn '+(key.cls||'k-num');
+      if(key.span)b.style.gridColumn='span '+key.span;
+      b.dataset.kind=key.k;
+      if(key.v!==undefined)b.dataset.val=key.v;
+      if(key.op)b.dataset.op='1';
+      b.textContent=key.l||((key.v===' mod ')?'mod':key.v);
+      if(key.k==='fn'){b.textContent=FNDEF[key.v].l;fnBtns.push({el:b,d:FNDEF[key.v]})}
+      kp.appendChild(b);
+    });
+  });
+  kp.addEventListener('click',function(ev){
+    var b=ev.target;
+    while(b&&b!==kp&&!(b.classList&&b.classList.contains('k-btn')))b=b.parentNode;
+    if(b&&b!==kp&&b.classList&&b.classList.contains('k-btn'))onKey(b);
+  });
+}
+function applyInv(){
+  fnBtns.forEach(function(fb){fb.el.textContent=inv?fb.d.il:fb.d.l});
+  var ib=$('.k-inv');if(ib)ib.classList.toggle('on',inv);
+}
+function trimOp(){
+  var e=Calc.expr;
+  if(/ mod $/.test(e))return e.slice(0,-5);
+  if(/[+\-−×÷^]$/.test(e))return e.slice(0,-1);
+  return e;
+}
+function insert(ch,opts){
+  opts=opts||{};
+  if(Calc.justEv){
+    Calc.expr=(opts.ap||opts.isOp)?(Calc.lastTxt+ch):ch;
+    Calc.justEv=false;
+  }else{
+    Calc.expr=opts.isOp?(trimOp()+ch):(Calc.expr+ch);
+  }
+  update();
+}
+function backspace(){
+  var e=Calc.expr;
+  if(!e)return;
+  var mFn=/^(?:sin|cos|tan|asin|acos|atan|ln|log|sqrt|cbrt|abs|exp|10)\($/;
+  if(mFn.test(e)||/[√∛]\($/.test(e)||/10\^\($/.test(e)){
+    Calc.expr=e.replace(/10\^\($/,'').replace(/10\($/,'').replace(/^(?:sin|cos|tan|asin|acos|atan|ln|log|sqrt|cbrt|abs|exp)\($/,'').replace(/[√∛]\($/,'');
+  }
+  else if(/ mod $/.test(e))Calc.expr=e.slice(0,-5);
+  else Calc.expr=e.slice(0,-1);
+}
+function update(){
+  var sm=$('#exprS'),bg=$('#bigS');
+  $('#errS').textContent='';
+  if(Calc.justEv){
+    sm.textContent=Calc.lastEq+' =';
+    bg.textContent=Calc.lastTxt;
+    bg.classList.add('lit');
+  }else{
+    sm.textContent=Calc.expr||'0';
+    bg.classList.remove('lit');
+    var pv='';
+    if(Calc.expr){
+      try{pv='= '+fmt(evaluate(Calc.expr))}catch(e){pv=''}
+    }
+    bg.textContent=pv;
+  }
+  sm.scrollLeft=sm.scrollWidth;
+  bg.scrollLeft=bg.scrollWidth;
+}
+function doEq(){
+  if(Calc.justEv)return;
+  var e=Calc.expr;
+  if(!e||!e.trim()){toast('اكتب عملية أولًا');return}
+  var v;
+  try{v=evaluate(e)}
+  catch(err){$('#errS').textContent=err.message;return}
+  Calc.lastAns=v;
+  Calc.lastTxt=fmt(v);
+  Calc.lastEq=e;
+  Calc.justEv=true;
+  Calc.expr=Calc.lastTxt;
+  Calc.hist.unshift({x:e,r:Calc.lastTxt});
+  if(Calc.hist.length>60)Calc.hist.length=60;
+  store('mr_hist',Calc.hist);
+  renderHist();
+  update();
+}
+function onKey(b){
+  vibrate();
+  var kind=b.dataset.kind,val=b.dataset.val;
+  if(kind==='inv'){inv=!inv;applyInv();return}
+  if(kind==='fn'){
+    var d=FNDEF[val];
+    insert(inv?d.ii:d.i,{ap:d.ap});
+    return;
+  }
+  if(kind==='ac'){Calc.expr='';Calc.justEv=false;Calc.lastEq='';update();return}
+  if(kind==='back'){if(Calc.justEv)Calc.justEv=false;backspace();update();return}
+  if(kind==='eq'){doEq();return}
+  if(kind==='ans'){
+    if(Calc.lastAns===null){toast('لا توجد نتيجة سابقة بعد');return}
+    insert('ans');return;
+  }
+  if(kind==='neg'){insert('(-');return}
+  if(kind==='ch'){
+    if(val==='.'){
+      if(Calc.justEv){insert('0.');return}
+      var tail=Calc.expr.split(/[^0-9.]/).pop();
+      if(tail.indexOf('.')>=0)return;
+      if(tail===''){insert('0.');return}
+    }
+    if(val==='!'&&Calc.justEv){insert('ans!');return}
+    var isOp=b.dataset.op==='1';
+    insert(val,{isOp:isOp});
+  }
+}
+function renderHist(){
+  var box=$('#histList');
+  box.innerHTML='';
+  if(!Calc.hist.length){
+    box.innerHTML='<div class="h-empty">ستظهر هنا آخر ٦٠ عملية — تُحفظ في جهازك تلقائيًا.<br>انقر أي عملية لإعادة استدعائها.</div>';
+    return;
+  }
+  Calc.hist.forEach(function(it){
+    var d=document.createElement('div');
+    d.className='h-item';
+    var x=document.createElement('span');x.className='h-x';x.textContent=it.x;
+    var r=document.createElement('span');r.className='h-r';r.textContent='= '+it.r;
+    d.appendChild(x);d.appendChild(r);
+    d.addEventListener('click',function(){
+      Calc.expr=it.x;Calc.justEv=false;update();
+      $('#calcWrap').classList.remove('hist-open');
+    });
+    box.appendChild(d);
+  });
+}
+ $('#histBtn').addEventListener('click',function(){$('#calcWrap').classList.toggle('hist-open')});
+ $('#histClear').addEventListener('click',function(){Calc.hist=[];store('mr_hist',[]);renderHist()});
+ $('#copyBtn').addEventListener('click',function(){
+  var t=$('#bigS').textContent;
+  if(!t){toast('لا توجد نتيجة بعد');return}
+  copyText(t);
+});
+ $('#degBtn').addEventListener('click',function(){Calc.deg=true;$('#degBtn').classList.add('on');$('#radBtn').classList.remove('on');update()});
+ $('#radBtn').addEventListener('click',function(){Calc.deg=false;$('#radBtn').classList.add('on');$('#degBtn').classList.remove('on');update()});
+document.addEventListener('keydown',function(e){
+  if(curTab!=='calc')return;
+  var tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='select'||tag==='textarea')return;
+  var k=null,op=false;
+  if((e.key>='0'&&e.key<='9')||e.key==='.')k=e.key;
+  else if(e.key==='+'){k='+';op=true}
+  else if(e.key==='-'){k='−';op=true}
+  else if(e.key==='*'){k='×';op=true}
+  else if(e.key==='/'){k='÷';op=true;e.preventDefault()}
+  else if(e.key==='^'){k='^';op=true}
+  else if(e.key==='('||e.key===')'||e.key==='!')k=e.key;
+  else if(e.key==='Enter'){e.preventDefault();doEq();return}
+  else if(e.key==='Backspace'){e.preventDefault();if(Calc.justEv)Calc.justEv=false;backspace();update();return}
+  else if(e.key==='Escape'){e.preventDefault();Calc.expr='';Calc.justEv=false;Calc.lastEq='';update();return}
+  if(k!==null){e.preventDefault();insert(k,{isOp:op})}
+});
+
+/* ================= الكسور ================= */
+function frHTML(n,d,cls){
+  return '<span class="fr '+(cls||'')+'"><b>'+n+'</b><i></i><b>'+d+'</b></span>';
+}
+function computeFrac(){
+  var out=$('#fracOut');
+  var n1=intV('#f1n'),d1=intV('#f1d');
+  var op=$('#fop').value;
+  $('#f2wrap').style.display=(op==='simp')?'none':'';
+  if(n1===null&&d1===null){out.innerHTML='';return}
+  if(n1===null||d1===null){out.innerHTML='<div class="hint" style="text-align:center;padding:8px">أكمل الكسر الأول (بسطًا ومقامًا)</div>';return}
+  if(d1===0){out.innerHTML=errm('المقام لا يمكن أن يكون صفرًا');return}
+  var n2=0,d2=0,steps=[],resN=0,resD=1;
+  if(op!=='simp'){
+    n2=intV('#f2n');d2=intV('#f2d');
+    if(n2===null||d2===null){out.innerHTML='<div class="hint" style="text-align:center;padding:8px">أكمل الكسر الثاني</div>';return}
+    if(d2===0){out.innerHTML=errm('المقام لا يمكن أن يكون صفرًا');return}
+  }
+  if(op==='simp'){
+    resN=n1;resD=d1;
+    steps.push(['الكسر الأصلي',n1+'/'+d1]);
+  }else if(op==='add'||op==='sub'){
+    var L=lcm(d1,d2);
+    var a1=n1*(L/d1),a2=n2*(L/d2);
+    resN=(op==='add')?(a1+a2):(a1-a2);resD=L;
+    steps.push(['المقام المشترك الأصغر','L = '+L]);
+    steps.push(['توحيد المقامين',n1+'/'+d1+' = '+a1+'/'+L+' ، '+n2+'/'+d2+' = '+a2+'/'+L]);
+    steps.push([op==='add'?'الجمع':'الطرح',a1+'/'+L+(op==='add'?' + ':' − ')+a2+'/'+L+' = '+resN+'/'+L]);
+  }else if(op==='mul'){
+    resN=n1*n2;resD=d1*d2;
+    steps.push(['الضرب','( '+n1+'×'+n2+' ) / ( '+d1+'×'+d2+' ) = '+resN+'/'+resD]);
+  }else if(op==='div'){
+    if(n2===0){out.innerHTML=errm('لا يمكن القسمة على كسر بسطه صفر');return}
+    resN=n1*d2;resD=d1*n2;
+    steps.push(['القسمة','( '+n1+'×'+d2+' ) / ( '+d1+'×'+n2+' ) = '+resN+'/'+resD]);
+  }
+  var sign=((resN<0)?-1:1)*((resD<0)?-1:1);
+  var an=Math.abs(resN),ad=Math.abs(resD);
+  var g=gcd(an,ad)||1;
+  var sn=sign*(an/g),sd=ad/g;
+  if(g>1)steps.push(['الاختصار بالقاسم المشترك','gcd('+an+', '+ad+') = '+g+' → '+sn+'/'+sd]);
+  else if(sn!==resN||sd!==resD)steps.push(['توحيد الإشارة',resN+'/'+resD+' = '+sn+'/'+sd]);
+  else steps.push(['أبسط صورة',sn+'/'+sd]);
+  var h='<div class="big-res">'+frHTML(sn,sd,'res')+'</div>';
+  if(an>=sd&&sd>1&&sn!==0){
+    var w=Math.floor(an/sd),rr=an%sd;
+    h+=kv('الكسر المختلط','<span style="white-space:nowrap">'+(sign<0?'−':'')+w+' '+rr+'/'+sd+'</span>');
+  }else if(sd===1){
+    h+=kv('الكسر عدد صحيح',fmt(sn));
+  }
+  h+=kv('القيمة العشرية',fmt(sn/sd,8));
+  h+='<div class="steps">';
+  steps.forEach(function(s){h+='<div class="st"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>'});
+  h+='</div>';
+  out.innerHTML=h;
+}
+['#f1n','#f1d','#f2n','#f2d'].forEach(function(id){$(id).addEventListener('input',computeFrac)});
+ $('#fop').addEventListener('change',computeFrac);
+
+/* ================= المعادلات ================= */
+ $$('.subtab').forEach(function(b){
+  b.addEventListener('click',function(){
+    $$('.subtab').forEach(function(x){x.classList.toggle('on',x===b)});
+    ['q','l','s'].forEach(function(m){$('#eq'+m.toUpperCase()).hidden=(b.dataset.e!==m)});
+  });
+});
+function calcQ(){
+  var out=$('#qOut');
+  if($('#qa').value===''&&$('#qb').value===''&&$('#qc').value===''){out.innerHTML='';return}
+  var a=parseFloat($('#qa').value)||0,b=parseFloat($('#qb').value)||0,c=parseFloat($('#qc').value)||0;
+  var h='';
+  if(a===0){
+    if(b===0){
+      h+=(c===0)?note('المعادلة تصبح 0 = 0 — كل قيمة لـ x حلّ لها')
+                :note('المعادلة تصبح 0 = '+fmt(c)+' — لا توجد قيمة لـ x تحققها');
+    }else{
+      var x=-c/b;
+      h+=step('a = 0 → معادلة خطية: '+b+'x + ('+c+') = 0');
+      h+=step('x = (−c) ÷ b = ('+(-c)+') ÷ '+b+' = '+fmt(x,8));
+      h+=kv('الحل x',fmt(x,8));
+    }
+  }else{
+    var D=b*b-4*a*c;
+    var eps=Math.max(1e-12,(Math.abs(b*b)+Math.abs(4*a*c))*1e-12);
+    h+=step('Δ = b² − 4ac = ('+b+')² − 4×('+a+')×('+c+') = '+fmt(D,10));
+    if(D>eps){
+      var sq=Math.sqrt(D);
+      var x1=(-b+sq)/(2*a),x2=(-b-sq)/(2*a);
+      h+=step('√Δ = '+fmt(sq,10));
+      h+=step('x = (−b ± √Δ) ÷ 2a = ('+(-b)+' ± '+fmt(sq,10)+') ÷ '+(2*a));
+      h+=kv('الجذر الأول x₁',fmt(x1,8));
+      h+=kv('الجذر الثاني x₂',fmt(x2,8));
+    }else if(Math.abs(D)<=eps){
+      var x0=-b/(2*a);
+      h+=step('Δ = 0 → جذر مزدوج (وحيد)');
+      h+=step('x = −b ÷ 2a = ('+(-b)+') ÷ '+(2*a)+' = '+fmt(x0,8));
+      h+=kv('x₁ = x₂',fmt(x0,8));
+    }else{
+      var p=-b/(2*a),q=Math.sqrt(-D)/(2*a);
+      h+=step('Δ < 0 → لا جذور حقيقية');
+      h+=step('الجذور المركبة: x = '+fmt(p,8)+' ± '+fmt(q,8)+'i');
+      h+=kv('الجذور في الأعداد المركبة',fmt(p,8)+' ± '+fmt(q,8)+'i');
+    }
+  }
+  out.innerHTML=h;
+}
+['#qa','#qb','#qc'].forEach(function(id){$(id).addEventListener('input',calcQ)});
+function calcL(){
+  var out=$('#lOut');
+  if($('#la').value===''&&$('#lb').value===''){out.innerHTML='';return}
+  var a=parseFloat($('#la').value)||0,b=parseFloat($('#lb').value)||0,c=parseFloat($('#lc').value)||0;
+  var h='';
+  if(a===0){
+    h+=(b===c)?note('0 = 0 دائمًا — كل قيمة لـ x حلّ للمعادلة')
+              :note('المعادلة متناقضة — لا يوجد حل');
+  }else{
+    var x=(c-b)/a;
+    h+=step('x = (c − b) ÷ a = ('+c+' − '+b+') ÷ '+a+' = '+fmt(x,8));
+    h+=kv('الحل x',fmt(x,8));
+  }
+  out.innerHTML=h;
+}
+['#la','#lb','#lc'].forEach(function(id){$(id).addEventListener('input',calcL)});
+function calcS(){
+  var out=$('#sOut');
+  var ids=['#sa1','#sb1','#sc1','#sa2','#sb2','#sc2'];
+  var allEmpty=ids.every(function(id){return $(id).value===''});
+  if(allEmpty){out.innerHTML='';return}
+  var a1=parseFloat($('#sa1').value)||0,b1=parseFloat($('#sb1').value)||0,c1=parseFloat($('#sc1').value)||0;
+  var a2=parseFloat($('#sa2').value)||0,b2=parseFloat($('#sb2').value)||0,c2=parseFloat($('#sc2').value)||0;
+  var D=a1*b2-a2*b1,Dx=c1*b2-c2*b1,Dy=a1*c2-a2*c1;
+  var eps=Math.max(1e-12,(Math.abs(a1*b2)+Math.abs(a2*b1))*1e-12);
+  var h='';
+  if(Math.abs(D)<=eps){
+    if(Math.abs(Dx)<=eps&&Math.abs(Dy)<=eps)h+=note('المحدد الرئيسي صفر والمحددات الجزئية صفر — المستقيمان متطابقان: حلول لا نهائية');
+    else h+=note('المحدد الرئيسي صفر — المستقيمان متوازيان: لا يوجد حل');
+  }else{
+    var x=Dx/D,y=Dy/D;
+    h+=step('D = a₁b₂ − a₂b₁ = ('+a1+')×('+b2+') − ('+a2+')×('+b1+') = '+fmt(D,10));
+    h+=step('Dx = c₁b₂ − c₂b₁ = '+fmt(Dx,10)+' ، Dy = a₁c₂ − a₂c₁ = '+fmt(Dy,10));
+    h+=step('x = Dx ÷ D = '+fmt(Dx,10)+' ÷ '+fmt(D,10)+' = '+fmt(x,8));
+    h+=step('y = Dy ÷ D = '+fmt(Dy,10)+' ÷ '+fmt(D,10)+' = '+fmt(y,8));
+    h+=kv('x',fmt(x,8));
+    h+=kv('y',fmt(y,8));
+  }
+  out.innerHTML=h;
+}
+['#sa1','#sb1','#sc1','#sa2','#sb2','#sc2'].forEach(function(id){$(id).addEventListener('input',calcS)});
+
+/* ================= الهندسة ================= */
+var SHAPES=[
+  {g:'الأشكال المسطحة',items:[
+    {id:'sq',n:'مربع',f:[['a','طول الضلع a']],o:function(v){return[['المساحة','a×a',v.a*v.a],['المحيط','4a',4*v.a]]}},
+    {id:'re',n:'مستطيل',f:[['a','الطول a'],['b','العرض b']],o:function(v){return[['المساحة','a×b',v.a*v.b],['المحيط','2(a+b)',2*(v.a+v.b)]]}},
+    {id:'tri',n:'مثلث (قاعدة وارتفاع)',f:[['b','القاعدة b'],['h','الارتفاع h']],o:function(v){return[['المساحة','½×b×h',.5*v.b*v.h]]}},
+    {id:'her',n:'مثلث بأضلاعه (قانون هيرون)',f:[['a','الضلع a'],['b','الضلع b'],['c','الضلع c']],o:function(v){
+      if(v.a+v.b<=v.c||v.a+v.c<=v.b||v.b+v.c<=v.a)return null;
+      var s=(v.a+v.b+v.c)/2;
+      return[['المحيط','a+b+c',v.a+v.b+v.c],['نصف المحيط s','(a+b+c)÷2',s],['المساحة','√(s(s−a)(s−b)(s−c))',Math.sqrt(s*(s-v.a)*(s-v.b)*(s-v.c))]];
+    }},
+    {id:'ci',n:'دائرة',f:[['r','نصف القطر r']],o:function(v){return[['المساحة','π×r²',PI*v.r*v.r],['المحيط','2×π×r',2*PI*v.r],['القطر','2r',2*v.r]]}},
+    {id:'pa',n:'متوازي أضلاع',f:[['b','القاعدة b'],['h','الارتفاع h']],o:function(v){return[['المساحة','b×h',v.b*v.h]]}},
+    {id:'tz',n:'شبه منحرف',f:[['a','القاعدة الكبرى a'],['b','القاعدة الصغرى b'],['h','الارتفاع h']],o:function(v){return[['المساحة','½(a+b)×h',.5*(v.a+v.b)*v.h]]}},
+    {id:'rh',n:'معين (بقطرييه)',f:[['d1','القطر d₁'],['d2','القطر d₂']],o:function(v){return[['المساحة','½×d₁×d₂',.5*v.d1*v.d2]]}}
+  ]},
+  {g:'الأشكال المجسّمة',items:[
+    {id:'cu',n:'مكعب',f:[['a','حرف المكعب a']],o:function(v){return[['الحجم','a³',v.a*v.a*v.a],['المساحة الكلية','6a²',6*v.a*v.a],['مجموع الأحرف','12a',12*v.a]]}},
+    {id:'cb',n:'متوازي مستطيلات',f:[['a','الطول a'],['b','العرض b'],['c','الارتفاع c']],o:function(v){return[['الحجم','a×b×c',v.a*v.b*v.c],['المساحة الكلية','2(ab+bc+ca)',2*(v.a*v.b+v.b*v.c+v.c*v.a)]]}},
+    {id:'cy',n:'أسطوانة',f:[['r','نصف القطر r'],['h','الارتفاع h']],o:function(v){return[['الحجم','π×r²×h',PI*v.r*v.r*v.h],['المساحة الجانبية','2πrh',2*PI*v.r*v.h],['المساحة الكلية','2πr(h+r)',2*PI*v.r*(v.h+v.r)]]}},
+    {id:'sp',n:'كرة',f:[['r','نصف القطر r']],o:function(v){return[['الحجم','4/3×π×r³',4/3*PI*v.r*v.r*v.r],['المساحة','4πr²',4*PI*v.r*v.r]]}},
+    {id:'co',n:'مخروط',f:[['r','نصف القطر r'],['h','الارتفاع h']],o:function(v){
+      var l=Math.sqrt(v.r*v.r+v.h*v.h);
+      return[['الراسم l','√(r²+h²)',l],['الحجم','⅓×π×r²×h',PI*v.r*v.r*v.h/3],['المساحة الجانبية','π×r×l',PI*v.r*l],['المساحة الكلية','πr(r+l)',PI*v.r*(v.r+l)]];
+    }}
+  ]}
+];
+function shapeById(id){
+  for(var i=0;i<SHAPES.length;i++){
+    for(var j=0;j<SHAPES[i].items.length;j++)
+      if(SHAPES[i].items[j].id===id)return SHAPES[i].items[j];
+  }
+  return null;
+}
+function buildShapeSel(){
+  var sel=$('#shapeSel');
+  SHAPES.forEach(function(gr){
+    var og=document.createElement('optgroup');
+    og.label=gr.g;
+    gr.items.forEach(function(it){
+      var o=document.createElement('option');
+      o.value=it.id;o.textContent=it.n;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+  sel.value='ci';
+  sel.addEventListener('change',buildShapeFields);
+}
+function buildShapeFields(){
+  var def=shapeById($('#shapeSel').value);
+  var box=$('#shapeFields');
+  box.innerHTML='';
+  def.f.forEach(function(f){
+    var d=document.createElement('div');
+    d.className='field';
+    var l=document.createElement('label');l.textContent=f[1];
+    var inp=document.createElement('input');
+    inp.className='inp num';inp.inputMode='decimal';inp.placeholder=f[0];
+    inp.addEventListener('input',calcShape);
+    d.appendChild(l);d.appendChild(inp);box.appendChild(d);
+  });
+  $('#shapeOut').innerHTML='';
+}
+function calcShape(){
+  var def=shapeById($('#shapeSel').value);
+  var inputs=$$('#shapeFields input');
+  var v={},complete=true,i;
+  for(i=0;i<def.f.length;i++){
+    var x=parseFloat(inputs[i].value);
+    if(isNaN(x)){complete=false;break}
+    if(x<0){$('#shapeOut').innerHTML=errm('القياسات لا تصح سالبة');return}
+    v[def.f[i][0]]=x;
+  }
+  if(!complete||x===0){$('#shapeOut').innerHTML=complete?'':'<div class="hint">أدخل القياسات المطلوبة</div>';if(!complete)return}
+  var rows=def.o(v);
+  if(rows===null){$('#shapeOut').innerHTML=errm('هذه الأطوال لا تكوّن مثلثًا (مجموع أي ضلعين يجب أن يزيد على الثالث)');return}
+  var h='';
+  rows.forEach(function(r){h+='<div class="kv"><span>'+r[0]+' <i class="fm">'+r[1]+'</i></span><b>'+fmt(r[2],8)+'</b></div>'});
+  $('#shapeOut').innerHTML=h;
+}
+function calcPy(){
+  var a=numV('#pa'),b=numV('#pb'),c=numV('#pc');
+  var out=$('#pyOut');
+  var vals=[a,b,c].filter(function(x){return x!==null});
+  if(vals.some(function(x){return x<0})){out.innerHTML=errm('الأطوال لا تصح سالبة');return}
+  if(a===null&&b===null&&c===null){out.innerHTML='';return}
+  var cnt=vals.length;
+  if(cnt===3){
+    var s=a*a+b*b,t=c*c;
+    var ok=Math.abs(s-t)<1e-9*Math.max(1,Math.abs(s),Math.abs(t));
+    out.innerHTML=note(ok?'متحقق: a² + b² = c² — هذه أطوال مثلث قائم الزاوية ✓'
+                         :'a² + b² ≠ c² — الأطوال لا تكوّن مثلثًا قائم الزاوية');
+    return;
+  }
+  if(cnt!==2){out.innerHTML='<div class="hint">املأ أي ضلعين (a و b للساقين، أو c للوتر مع أحد الساقين)</div>';return}
+  var h='';
+  if(a!==null&&b!==null){
+    var r=Math.sqrt(a*a+b*b);
+    h+=step('c = √(a² + b²) = √('+fmt(a*a+b*b,10)+') = '+fmt(r,8));
+    h+=kv('الوتر c',fmt(r,8));
+  }else if(b!==null&&c!==null){
+    if(c<=b){out.innerHTML=errm('الوتر يجب أن يكون أطول من الساق');return}
+    var rb=Math.sqrt(c*c-b*b);
+    h+=step('a = √(c² − b²) = √('+fmt(c*c-b*b,10)+') = '+fmt(rb,8));
+    h+=kv('الساق a',fmt(rb,8));
+  }else{
+    if(c<=a){out.innerHTML=errm('الوتر يجب أن يكون أطول من الساق');return}
+    var ra=Math.sqrt(c*c-a*a);
+    h+=step('b = √(c² − a²) = √('+fmt(c*c-a*a,10)+') = '+fmt(ra,8));
+    h+=kv('الساق b',fmt(ra,8));
+  }
+  out.innerHTML=h;
+}
+['#pa','#pb','#pc'].forEach(function(id){$(id).addEventListener('input',calcPy)});
+
+/* ================= الإحصاء ================= */
+function median(a){var n=a.length;if(n%2)return a[(n-1)/2];return(a[n/2-1]+a[n/2])/2}
+function calcStats(){
+  var raw=$('#stIn').value.split(/[\s,،;؛\n]+/).filter(function(s){return s!==''});
+  var arr=raw.map(Number).filter(function(x){return isFinite(x)});
+  var out=$('#stOut'),bars=$('#stBars');
+  if(arr.length===0){out.innerHTML='';bars.innerHTML='';return}
+  arr.sort(function(x,y){return x-y});
+  var n=arr.length,sum=0,i;
+  for(i=0;i<n;i++)sum+=arr[i];
+  var mean=sum/n;
+  var freq={},mx=0;
+  for(i=0;i<n;i++){var key=String(arr[i]);freq[key]=(freq[key]||0)+1;if(freq[key]>mx)mx=freq[key]}
+  var modeTxt='لا يوجد منوال (كل القيمة ظهرت مرة واحدة)';
+  if(mx>1){
+    var list=Object.keys(freq).filter(function(k){return freq[k]===mx});
+    modeTxt=list.map(Number).map(function(x){return fmt(x)}).join(' ، ')+' (تكرار '+mx+' مرات)';
+  }
+  var lower,upper;
+  if(n%2){lower=arr.slice(0,(n-1)/2);upper=arr.slice((n+1)/2)}
+  else{lower=arr.slice(0,n/2);upper=arr.slice(n/2)}
+  var q1=lower.length?median(lower):mean,q3=upper.length?median(upper):mean;
+  var sp=0;
+  for(i=0;i<n;i++)sp+=(arr[i]-mean)*(arr[i]-mean);
+  var varP=sp/n,varS=n>1?sp/(n-1):null;
+  var h='';
+  h+=kv('عدد القيم n',n);
+  h+=kv('المجموع Σx',fmt(sum,8));
+  h+=kv('المتوسط الحسابي x̄',fmt(mean,6));
+  h+=kv('الوسيط',fmt(median(arr),6));
+  h+=kv('المنوال',modeTxt);
+  h+=kv('أصغر قيمة',fmt(arr[0]));
+  h+=kv('أكبر قيمة',fmt(arr[n-1]));
+  h+=kv('المدى',fmt(arr[n-1]-arr[0]));
+  h+=kv('الربيع الأول Q₁',fmt(q1,6));
+  h+=kv('الربيع الثالث Q₃',fmt(q3,6));
+  h+=kv('التباين (مجتمع) σ²',fmt(varP,6));
+  h+=kv('الانحراف المعياري (مجتمع) σ',fmt(Math.sqrt(varP),6));
+  h+=kv('التباين (عينة) s²',varS===null?'— (تحتاج قيمتين على الأقل)':fmt(varS,6));
+  h+=kv('الانحراف المعياري (عينة) s',varS===null?'—':fmt(Math.sqrt(varS),6));
+  out.innerHTML=h;
+  var keys=Object.keys(freq).map(Number).sort(function(x,y){return x-y});
+  if(keys.length<=15){
+    var bh='<div class="bars">';
+    keys.forEach(function(k){
+      var f=freq[String(k)];
+      bh+='<div class="bar"><span class="bv">'+f+'</span><div class="bcol" style="height:'+Math.max(3,Math.round(f/mx*100))+'%"></div><span class="bl">'+fmt(k)+'</span></div>';
+    });
+    bh+='</div>';
+    bars.innerHTML='<div class="hint" style="margin-top:14px">تكرار كل قيمة:</div>'+bh;
+  }else{
+    bars.innerHTML=note('عدد القيم المختلفة كبير ('+keys.length+') — أُخفي الرسم البياني للوضوح.');
+  }
+}
+ $('#stIn').addEventListener('input',calcStats);
+
+/* ================= تحويل الوحدات ================= */
+var UNITS=[
+  {id:'length',t:'الطول',def:2,u:[['مليمتر',0.001],['سنتيمتر',0.01],['متر',1],['كيلومتر',1000],['بوصة',0.0254],['قدم',0.3048],['ياردة',0.9144],['ميل',1609.344]]},
+  {id:'mass',t:'الكتلة',def:2,u:[['مليغرام',0.000001],['غرام',0.001],['كيلوغرام',1],['طن',1000],['أونصة',0.0283495],['رطل',0.453592]]},
+  {id:'temp',t:'الحرارة',def:0,temp:true,u:[['درجة مئوية','c'],['درجة فهرنهايت','f'],['كلفن','k']]},
+  {id:'area',t:'المساحة',def:1,u:[['سنتيمتر مربع',0.0001],['متر مربع',1],['دونم',1000],['هكتار',10000],['كيلومتر مربع',1000000],['قدم مربع',0.092903],['ياردة مربعة',0.836127]]},
+  {id:'vol',t:'الحجم',def:1,u:[['مليلتر',0.001],['لتر',1],['متر مكعب',1000],['جالون أمريكي',3.785412],['جالون إنجليزي',4.54609]]},
+  {id:'speed',t:'السرعة',def:0,u:[['متر/ثانية',1],['كم/ساعة',0.2777778],['ميل/ساعة',0.44704],['عقدة',0.5144444]]},
+  {id:'time',t:'الزمن',def:0,u:[['ثانية',1],['دقيقة',60],['ساعة',3600],['يوم',86400],['أسبوع',604800],['سنة (365 يوم)',31536000]]},
+  {id:'data',t:'البيانات',def:0,u:[['بايت',1],['كيلوبايت',1024],['ميغابايت',1048576],['غيغابايت',1073741824],['تيرابايت',1099511627776]]},
+  {id:'angle',t:'الزوايا',def:0,u:[['درجة',1],['راديان',57.29578],['غراد',0.9]]}
+];
+var ucur=0;
+function toC(v,u){if(u==='c')return v;if(u==='f')return(v-32)*5/9;return v-273.15}
+function fromC(c,u){if(u==='c')return c;if(u==='f')return c*9/5+32;return c+273.15}
+function buildUnitTabs(){
+  var box=$('#unitTabs');
+  UNITS.forEach(function(cat,i){
+    var b=document.createElement('button');
+    b.type='button';b.className='chip'+(i===ucur?' on':'');b.textContent=cat.t;
+    b.addEventListener('click',function(){
+      ucur=i;
+      $$('#unitTabs .chip').forEach(function(x,j){x.classList.toggle('on',j===i)});
+      buildUnitSel();calcUnits();
+    });
+    box.appendChild(b);
+  });
+}
+function buildUnitSel(){
+  var cat=UNITS[ucur],sel=$('#uFrom');
+  sel.innerHTML='';
+  cat.u.forEach(function(u,i){
+    var o=document.createElement('option');
+    o.value=i;o.textContent=u[0];
+    sel.appendChild(o);
+  });
+  sel.value=cat.def;
+}
+function calcUnits(){
+  var cat=UNITS[ucur];
+  var v=parseFloat($('#uVal').value);
+  var out=$('#unitOut');
+  if(isNaN(v)){out.innerHTML='<div class="hint">أدخل قيمة لتحويلها</div>';return}
+  var fi=parseInt($('#uFrom').value,10)||0;
+  var h='';
+  cat.u.forEach(function(uu,ui){
+    var r;
+    if(cat.temp)r=fromC(toC(v,cat.u[fi][1]),uu[1]);
+    else r=v*cat.u[fi][1]/uu[1];
+    var hl=(ui===fi);
+    h+='<div class="kv"'+(hl?' style="background:#F0F4EC;border-radius:8px;padding:8px 10px"':'')+'><span>'+uu[0]+(hl?' (الأصل)':'')+'</span><b>'+fmt(r,10)+'</b></div>';
+  });
+  out.innerHTML=h;
+}
+ $('#uVal').addEventListener('input',calcUnits);
+ $('#uFrom').addEventListener('change',calcUnits);
+
+/* ================= النسب المئوية ================= */
+var PFIELDS={
+  of:[['pa','النسبة ن ٪'],['pv','القيمة']],
+  what:[['wa','القيمة الجزئية'],['wb','القيمة الكلية']],
+  chg:[['cf','القيمة الأصلية (من)'],['ct','القيمة الجديدة (إلى)']],
+  adj:[['ja','القيمة الأصلية'],['jp','النسبة ن ٪']]
+};
+function renderPFields(){
+  var m=$('#pMode').value,box=$('#pFields');
+  var f=PFIELDS[m],h='';
+  f.forEach(function(x){
+    h+='<div class="field"><label>'+x[1]+'</label><input id="'+x[0]+'" class="inp num" inputmode="decimal" placeholder="0"></div>';
+  });
+  if(m==='adj')h+='<div class="field"><label>النوع</label><select id="jk" class="inp"><option value="add">زيادة (+)</option><option value="sub">خصم (−)</option></select></div>';
+  box.innerHTML=h;
+  $$('#pFields input').forEach(function(inp){inp.addEventListener('input',calcPercent)});
+  var jk=$('#jk');if(jk)jk.addEventListener('change',calcPercent);
+  $('#pOut').innerHTML='';
+}
+function calcPercent(){
+  var m=$('#pMode').value,out=$('#pOut'),h='';
+  if(m==='of'){
+    var p=numV('#pa'),v=numV('#pv');
+    if(p===null||v===null){out.innerHTML='';return}
+    var r=p/100*v;
+    h+='<div class="p-big">'+fmt(r)+'</div>';
+    h+=step(p+'% من '+v+' = '+p+' ÷ 100 × '+v+' = '+fmt(r));
+  }else if(m==='what'){
+    var a=numV('#wa'),b=numV('#wb');
+    if(a===null||b===null){out.innerHTML='';return}
+    if(b===0){out.innerHTML=errm('القيمة الكلية لا يمكن أن تكون صفرًا');return}
+    var r2=a/b*100;
+    h+='<div class="p-big">'+fmt(r2,8)+' %</div>';
+    h+=step(a+' من '+b+' = ('+a+' ÷ '+b+') × 100 = '+fmt(r2,8)+' %');
+  }else if(m==='chg'){
+    var f=numV('#cf'),t=numV('#ct');
+    if(f===null||t===null){out.innerHTML='';return}
+    if(f===0){out.innerHTML=errm('القيمة الأصلية لا يمكن أن تكون صفرًا في نسبة التغير');return}
+    var d=(t-f)/f*100;
+    h+='<div class="p-big">'+(d>=0?'+':'')+fmt(d,8)+' %</div>';
+    h+=step('التغير = ('+t+' − '+f+') ÷ '+f+' × 100 = '+fmt(d,8)+' %');
+    h+=note(d>=0?'ارتفاع بنسبة '+fmt(Math.abs(d),6)+'٪':'انخفاض بنسبة '+fmt(Math.abs(d),6)+'٪');
+  }else{
+    var a2=numV('#ja'),p2=numV('#jp'),kind=$('#jk').value;
+    if(a2===null||p2===null){out.innerHTML='';return}
+    var r3=a2*(kind==='add'?(1+p2/100):(1-p2/100));
+    h+='<div class="p-big">'+fmt(r3)+'</div>';
+    h+=step(kind==='add'
+      ?a2+' + ('+a2+' × '+p2+' ÷ 100) = '+a2+' + '+fmt(a2*p2/100)+' = '+fmt(r3)
+      :a2+' − ('+a2+' × '+p2+' ÷ 100) = '+a2+' − '+fmt(a2*p2/100)+' = '+fmt(r3));
+    h+=kv(kind==='add'?'مقدار الزيادة':'مقدار الخصم',fmt(Math.abs(a2*p2/100)));
+  }
+  out.innerHTML=h;
+}
+ $('#pMode').addEventListener('change',renderPFields);
+
+/* ================= جدول الضرب ================= */
+var TRange='7';
+function buildTblTabs(){
+  var box=$('#tblTabs');
+  var opts=[['mix','مختلط ٢–١٢']];
+  for(var i=2;i<=12;i++)opts.push([String(i),'جدول '+i]);
+  opts.forEach(function(o){
+    var b=document.createElement('button');
+    b.type='button';b.className='chip'+(TRange===o[0]?' on':'');b.textContent=o[1];
+    b.addEventListener('click',function(){
+      TRange=o[0];
+      $$('#tblTabs .chip').forEach(function(x){x.classList.toggle('on',x.textContent===o[1])});
+      renderTbl();
+    });
+    box.appendChild(b);
+  });
+}
+function renderTbl(){
+  var grid=$('#tblGrid'),tn=$('#tblNote');
+  if(TRange==='mix'){
+    grid.innerHTML='';
+    tn.innerHTML=note('وضع المزج مخصص لتحدي السرعة بالأسفل — الأسئلة ستُسحب من كل الجداول من ٢ إلى ١٢. أو اختر جدولًا محددًا لعرضه.');
+    return;
+  }
+  tn.innerHTML='';
+  var n=parseInt(TRange,10),h='';
+  for(var i=1;i<=12;i++)h+='<div class="trow">'+n+' × '+i+' = <b>'+(n*i)+'</b></div>';
+  grid.innerHTML=h;
+}
+var Q={on:false,i:0,s:0,qs:[],t:null};
+function renderBest(){
+  var best=load('mr_qbest',0);
+  $('#qzBest').textContent=best>0?('أفضل نتيجة: '+best+' / 10'):'لم تُسجّل نتيجة بعد';
+}
+function renderProg(){
+  $('#qzProg').textContent='السؤال '+Math.min(Q.i+1,10)+' من 10 — الصحيحة: '+Q.s;
+}
+function startQ(){
+  clearTimeout(Q.t);
+  Q.on=true;Q.i=0;Q.s=0;Q.qs=[];
+  for(var j=0;j<10;j++){
+    var a=TRange==='mix'?(2+Math.floor(Math.random()*11)):parseInt(TRange,10);
+    var b=TRange==='mix'?(2+Math.floor(Math.random()*11)):(1+Math.floor(Math.random()*12));
+    Q.qs.push([a,b]);
+  }
+  $('#qzBody').hidden=false;
+  $('#qzStart').textContent='إعادة التحدي';
+  nextQ();
+}
+function nextQ(){
+  $('#qzIn').value='';
+  $('#qzIn').disabled=false;
+  $('#qzFeed').textContent='';
+  $('#qzFeed').className='qz-feed';
+  renderProg();
+  $('#qzQ').textContent=Q.qs[Q.i][0]+' × '+Q.qs[Q.i][1];
+  try{$('#qzIn').focus()}catch(e){}
+}
+function checkQ(){
+  if(!Q.on)return;
+  var v=parseInt($('#qzIn').value,10);
+  if(isNaN(v)){$('#qzFeed').textContent='اكتب إجابة رقمية أولًا';return}
+  var q=Q.qs[Q.i],ok=(v===q[0]*q[1]);
+  if(ok)Q.s++;
+  var f=$('#qzFeed');
+  f.textContent=(ok?'أحسنت! ':'الصواب: ')+q[0]+' × '+q[1]+' = '+(q[0]*q[1]);
+  f.className='qz-feed '+(ok?'ok':'err');
+  $('#qzIn').disabled=true;
+  Q.i++;
+  renderProg();
+  vibrate();
+  Q.t=setTimeout(function(){if(Q.i>=10)finishQ();else nextQ()},900);
+}
+function finishQ(){
+  Q.on=false;
+  $('#qzQ').textContent=Q.s+' / 10';
+  var msg='انتهى التحدي! نتيجتك '+Q.s+' من 10. ';
+  if(Q.s===10)msg+='علامة كاملة، مذهل!';
+  else if(Q.s>=8)msg+='ممتاز جدًا!';
+  else if(Q.s>=5)msg+='جيد — واصل التدريب.';
+  else msg+='راجع الجدول ثم أعد المحاولة.';
+  var best=load('mr_qbest',0);
+  if(Q.s>best){store('mr_qbest',Q.s);msg+=' رقم قياسي جديد لك!'}
+  var f=$('#qzFeed');
+  f.textContent=msg;
+  f.className='qz-feed '+(Q.s>=8?'ok':'err');
+  renderBest();
+}
+ $('#qzStart').addEventListener('click',startQ);
+ $('#qzCheck').addEventListener('click',checkQ);
+ $('#qzIn').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();checkQ()}});
+
+/* ================= التبويبات ================= */
+var TABS=['calc','frac','eq','geo','stats','units','percent','table'];
+var curTab='calc';
+function switchTab(t){
+  curTab=t;
+  $$('.tab').forEach(function(x){x.classList.toggle('on',x.dataset.t===t)});
+  $$('section.tool').forEach(function(s){s.classList.toggle('on',s.id==='sec-'+t)});
+  try{history.replaceState(null,'','#'+t)}catch(e){}
+}
+ $$('.tab').forEach(function(b){b.addEventListener('click',function(){switchTab(b.dataset.t)})});
+
+/* ================= الإقلاع ================= */
+buildKeypad();
+buildShapeSel();
+buildShapeFields();
+buildUnitTabs();
+buildUnitSel();
+calcUnits();
+renderPFields();
+buildTblTabs();
+renderTbl();
+renderBest();
+renderHist();
+update();
+computeFrac();
+var h0=(location.hash||'').replace('#','');
+switchTab(TABS.indexOf(h0)>=0?h0:'calc');
+</script>
+</body>
+</html>
