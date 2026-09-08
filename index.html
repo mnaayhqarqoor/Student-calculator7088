@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#EFECE2">
-<meta name="description" content="حاسبة علمية كاملة بكل العمليات: أساسيات، نسب مئوية، ذاكرة، أقواس، أسس وجذور، مثلثات، لوغاريتمات، مضروب وباقي القسمة — تعمل على أي جهاز.">
+<meta name="description" content="حاسبة علمية كاملة بأكثر من 50 عملية: حسابات، مثلثات وزائديها، لوغاريتمات، جذور، تبديلات وتوافيق، gcd و lcm، ذاكرة وسجل — تعمل على أي جهاز.">
 <title>المسطرة — الحاسبة العلمية الكاملة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,21 +50,20 @@ button{font-family:inherit;font-size:16px;color:var(--ink);cursor:pointer;
   -webkit-tap-highlight-color:transparent}
 .page{max-width:520px;margin:0 auto;padding:20px 14px 34px}
 
-/* ===== رأس الصفحة ===== */
+/* رأس الصفحة */
 header.top{display:flex;align-items:center;gap:12px;padding:2px 4px 18px}
-header.top h1{font-size:22px;font-weight:700;letter-spacing:-.2px}
+header.top h1{font-size:21px;font-weight:700;letter-spacing:-.2px}
 header.top h1 em{font-style:normal;color:var(--opink)}
 header.top p{font-size:12.5px;color:var(--ink2);margin-top:1px}
-@media (prefers-color-scheme: dark){ header.top h1 em{color:var(--opink)} }
 
-/* ===== جسم الحاسبة ===== */
+/* جسم الحاسبة */
 .calc{background:var(--body);border:1px solid var(--line2);border-radius:22px;
   padding:14px;box-shadow:0 28px 50px -22px rgba(25,30,24,.38)}
 .calc-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
   justify-content:space-between;margin-bottom:12px}
 .segs{display:flex;gap:8px;flex-wrap:wrap}
 .seg{display:flex;background:var(--fn);border:1px solid var(--line);border-radius:9px;overflow:hidden}
-.seg button{border:0;background:transparent;padding:5px 13px 4px;font-size:12.5px;color:var(--fnink)}
+.seg button{border:0;background:transparent;padding:5px 12px 4px;font-size:12px;color:var(--fnink)}
 .seg button.on{background:var(--ink);color:var(--body);font-weight:500}
 .minis{display:flex;gap:8px}
 .mini{display:flex;align-items:center;gap:6px;background:var(--fn);
@@ -73,7 +72,7 @@ header.top p{font-size:12.5px;color:var(--ink2);margin-top:1px}
 .mini.on{background:var(--ink);color:var(--body)}
 .mini:active{transform:translateY(1px)}
 
-/* ===== الشاشة ===== */
+/* الشاشة */
 .screen{background:var(--scr);border-radius:14px;padding:14px 16px 12px;
   min-height:112px;display:flex;flex-direction:column;justify-content:flex-end;
   gap:4px;position:relative;box-shadow:inset 0 2px 14px rgba(0,0,0,.3)}
@@ -91,39 +90,45 @@ header.top p{font-size:12.5px;color:var(--ink2);margin-top:1px}
 .scr-big.lit{color:var(--scr-lit)}
 .scr-err{color:var(--acink);font-size:12.5px;min-height:19px;padding:4px 4px 0}
 
-/* ===== شريط الذاكرة ===== */
+/* شريط الذاكرة */
 .membar{display:flex;gap:6px;margin:2px 0 10px}
 .membar[hidden]{display:none}
 .membar button{flex:1;background:var(--fn);border:1px solid var(--line);
   border-radius:8px;padding:6px 0 5px;font-size:13px;color:var(--fnink)}
 .membar button:active{transform:translateY(1px)}
 
-/* ===== لوحة المفاتيح ===== */
-.keypad{display:grid;gap:8px}
-.keypad.k6{grid-template-columns:repeat(6,1fr);grid-auto-rows:54px}
-.keypad.k4{grid-template-columns:repeat(4,1fr);grid-auto-rows:64px}
-@media(max-width:420px){
-  .keypad.k6{grid-auto-rows:50px;gap:6px}
-  .keypad.k4{grid-auto-rows:60px;gap:6px}
-}
+/* لوحة المفاتيح */
+.keypad{display:grid;gap:7px}
+.keypad.k6{grid-template-columns:repeat(6,1fr)}
+.keypad.k4{grid-template-columns:repeat(4,1fr);grid-auto-rows:64px;gap:8px}
+.keypad.k4 .k-btn{height:auto}
 .k-btn{border:1px solid var(--line);border-radius:12px;background:var(--key);
-  color:var(--keyink);font-size:18px;font-weight:500;
+  color:var(--keyink);font-size:18px;font-weight:500;height:54px;
   box-shadow:0 2.5px 0 var(--sh);display:flex;align-items:center;justify-content:center;
   user-select:none;-webkit-user-select:none;touch-action:manipulation;
   transition:filter .12s,transform .05s,box-shadow .05s}
 .k-btn:hover{filter:brightness(.965)}
 .k-btn:active{transform:translateY(2.5px);box-shadow:0 0 0 var(--sh)}
+.k-btn.sm{height:47px;font-size:14px;border-radius:10px}
 .k-fn{background:var(--fn);color:var(--fnink);font-size:15px}
+.k-btn.sm.k-fn{font-size:14px}
 .k-op{background:var(--op);color:var(--opink);font-size:21px}
 .k-back{background:var(--fn);color:var(--acink);font-size:19px}
 .k-ac{background:var(--ac);color:var(--acink)}
 .k-eq{background:var(--eq);color:var(--eqink);border-color:transparent;
   box-shadow:0 2.5px 0 var(--eqsh);font-size:22px}
 .k-eq:active{box-shadow:0 0 0 var(--eqsh)}
-.k-inv{background:var(--fn);color:var(--opink);font-size:13px;font-weight:700}
-.k-inv.on{background:var(--eq);color:var(--eqink)}
+.k-tgl{background:var(--fn);color:var(--opink);font-size:13px;font-weight:700}
+.k-tgl.on{background:var(--eq);color:var(--eqink);border-color:transparent;
+  box-shadow:0 2.5px 0 var(--eqsh)}
+@media(max-width:420px){
+  .keypad{gap:6px}
+  .k-btn{height:50px}
+  .k-btn.sm{height:44px;font-size:13px}
+  .keypad.k4{grid-auto-rows:60px}
+}
 
-/* ===== السجل ===== */
+/* السجل */
 .hist{display:none;border:1px solid var(--line);border-radius:12px;
   background:var(--body);margin-bottom:10px;max-height:232px;overflow-y:auto}
 .hist.open{display:block;animation:fadein .16s ease}
@@ -141,12 +146,12 @@ header.top p{font-size:12.5px;color:var(--ink2);margin-top:1px}
 .h-r{font-family:var(--mono);direction:ltr;text-align:right;font-size:15.5px;color:var(--opink)}
 .h-empty{padding:16px 14px;text-align:center;font-size:12.5px;color:var(--ink2)}
 
-/* ===== أسفل الصفحة ===== */
-.kbd-hint{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:16px;
-  line-height:1.9}
+/* أسفل الصفحة */
+.kbd-hint{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:16px;line-height:1.9}
 footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
+footer a{color:var(--opink);text-decoration:none;border-bottom:1px dotted var(--opink)}
 
-/* ===== توست ===== */
+/* توست */
 #toast{position:fixed;bottom:24px;right:50%;transform:translate(50%,16px);
   background:var(--ink);color:var(--body);padding:9px 20px;border-radius:999px;
   font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:99}
@@ -165,7 +170,7 @@ footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
   </svg>
   <div>
     <h1>المسطرة <em>— الحاسبة العلمية الكاملة</em></h1>
-    <p>وضعان (علمي وأساسي)، ذاكرة، نسبة مئوية حقيقية وسجل عمليات — كل العمليات الحسابية في حاسبة واحدة.</p>
+    <p>أكثر من ٥٠ عملية: مثلثات وزائديها، لوغاريتمات، جذور، nPr و nCr، gcd و lcm، ذاكرة وسجل — في حاسبة واحدة.</p>
   </div>
 </header>
 
@@ -179,6 +184,7 @@ footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
       <div class="seg" id="angSeg">
         <button type="button" data-a="deg" class="on">درجة</button>
         <button type="button" data-a="rad">راديان</button>
+        <button type="button" data-a="grad">غراد</button>
       </div>
     </div>
     <div class="minis">
@@ -191,7 +197,9 @@ footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
   </div>
 
   <div class="screen">
-    <div class="scr-b"><span id="bDeg">DEG</span><span id="bM" hidden>M</span></div>
+    <div class="scr-b">
+      <span id="bDeg">DEG</span><span id="bInv" hidden>INV</span><span id="bHyp" hidden>HYP</span><span id="bM" hidden>M</span>
+    </div>
     <div class="scr-sm" id="exprS" dir="ltr"></div>
     <div class="scr-big" id="bigS" dir="ltr"></div>
   </div>
@@ -202,7 +210,6 @@ footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
     <button type="button" data-mk="mr">MR</button>
     <button type="button" data-mk="mplus">M+</button>
     <button type="button" data-mk="mminus">M−</button>
-    <button type="button" data-mk="abs">|x|</button>
   </div>
 
   <div class="hist" id="histPane">
@@ -219,7 +226,10 @@ footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:6px}
 <p class="kbd-hint">
   اختصارات لوحة المفاتيح: الأرقام و <span dir="ltr">+ − × ÷ ^ ( ) ! %</span> · Enter للحساب · Backspace للحذف · Esc للمسح · حرف P لإدراج π
 </p>
-<footer>كل الحسابات تجري محليًا في متصفحك — يعمل الموقع على أي جهاز، هاتفًا كان أو حاسوبًا.</footer>
+<footer>
+  كل الحسابات تجري محليًا في متصفحك — يعمل الموقع على أي جهاز، هاتفًا كان أو حاسوبًا.<br>
+  <a href="terms.html">الشروط وسياسة الخصوصية</a>
+</footer>
 
 </div>
 <div id="toast"></div>
@@ -268,12 +278,23 @@ function fmt(x,p){
   }
   return String(x);
 }
+function isInt(x){return typeof x==='number'&&isFinite(x)&&x%1===0}
+function gcdInt(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t}return a}
+var HYPF={
+  sinh:function(x){return (Math.exp(x)-Math.exp(-x))/2},
+  cosh:function(x){return (Math.exp(x)+Math.exp(-x))/2},
+  tanh:function(x){var e=Math.exp(2*x);return (e-1)/(e+1)},
+  asinh:function(x){return Math.log(x+Math.sqrt(x*x+1))},
+  acosh:function(x){return Math.log(x+Math.sqrt(x*x-1))},
+  atanh:function(x){return 0.5*Math.log((1+x)/(1-x))}
+};
 
 /* ================= المحرك الحسابي (بدون eval) ================= */
 var PI=Math.PI;
-var Calc={expr:'',done:false,lastAns:null,lastTxt:'',lastEq:'',deg:true,hist:load('sc_hist',[])};
+var Calc={expr:'',done:false,lastAns:null,lastTxt:'',lastEq:'',ang:'deg',hist:load('sc_hist',[])};
 var Mem={v:0};
 var OPMAP={'×':'*','÷':'/','−':'-','-':'-','+':'+','^':'pow'};
+var PHI=(1+Math.sqrt(5))/2;
 
 function tokenize(src){
   var T=[];
@@ -296,6 +317,7 @@ function tokenize(src){
       push({t:'num',v:v});i=j;continue;
     }
     if(c==='π'){push({t:'num',v:PI});i++;continue}
+    if(c==='φ'){push({t:'num',v:PHI});i++;continue}
     if(c==='√'||c==='∛'){push({t:'fn',v:c==='√'?'sqrt':'cbrt'});i++;continue}
     if(c==='!'){T.push({t:'post'});i++;continue}
     if(c==='('){push({t:'lp'});i++;continue}
@@ -311,13 +333,18 @@ function tokenize(src){
     if(/[a-z]/i.test(c)){
       var j2=i;while(j2<src.length&&/[a-z]/i.test(src[j2]))j2++;
       var w=src.slice(i,j2).toLowerCase();i=j2;
-      if(w==='mod'){T.push({t:'op',v:'mod',prec:2,ra:false});continue}
+      if(w==='mod'||w==='npr'||w==='ncr'||w==='gcd'||w==='lcm'){
+        T.push({t:'op',v:w,prec:2,ra:false});continue;
+      }
       if(w==='ans'){
         if(Calc.lastAns===null)throw new Error('لا توجد نتيجة سابقة لـ ans');
         push({t:'num',v:Calc.lastAns});continue;
       }
-      var F={sin:1,cos:1,tan:1,asin:1,acos:1,atan:1,ln:1,log:1,sqrt:1,cbrt:1,abs:1,exp:1};
+      var F={sin:1,cos:1,tan:1,asin:1,acos:1,atan:1,sinh:1,cosh:1,tanh:1,
+             asinh:1,acosh:1,atanh:1,ln:1,log:1,log2:1,sqrt:1,cbrt:1,
+             abs:1,exp:1,round:1,floor:1,ceil:1};
       if(F[w]){
+        if(w==='log'&&src[i]==='2'){w='log2';i++}
         push({t:'fn',v:w});
         if(src[i]!=='(')throw new Error('أضف قوسًا بعد '+w+' — مثال: '+w+'(30)');
         continue;
@@ -376,7 +403,9 @@ function cleanNum(x){
 }
 
 function evalRPN(R){
-  var st=[],D=Calc.deg;
+  var st=[];
+  var toRad=function(x){return Calc.ang==='deg'?x*PI/180:(Calc.ang==='grad'?x*PI/200:x)};
+  var fromRad=function(x){return Calc.ang==='deg'?x*180/PI:(Calc.ang==='grad'?x*200/PI:x)};
   function need(){if(st.length===0)throw new Error('تعبير غير مكتمل')}
   for(var i=0;i<R.length;i++){
     var tk=R[i];
@@ -385,31 +414,47 @@ function evalRPN(R){
     if(tk.t==='fn'){
       need();var a=st.pop(),r;
       switch(tk.v){
-        case 'sin':r=Math.sin(D?a*PI/180:a);break;
-        case 'cos':r=Math.cos(D?a*PI/180:a);break;
+        case 'sin':r=Math.sin(toRad(a));break;
+        case 'cos':r=Math.cos(toRad(a));break;
         case 'tan':
-          var tv=Math.tan(D?a*PI/180:a);
-          if(Math.abs(tv)>1e15)throw new Error('tan غير معرّفة عند '+fmt(a)+'°');
+          var tv=Math.tan(toRad(a));
+          if(Math.abs(tv)>1e15)throw new Error('tan غير معرّفة عند '+fmt(a));
           r=tv;break;
         case 'asin':
           if(a<-1||a>1)throw new Error('sin⁻¹ يقبل قيمًا بين −1 و 1 فقط');
-          r=D?Math.asin(a)*180/PI:Math.asin(a);break;
+          r=fromRad(Math.asin(a));break;
         case 'acos':
           if(a<-1||a>1)throw new Error('cos⁻¹ يقبل قيمًا بين −1 و 1 فقط');
-          r=D?Math.acos(a)*180/PI:Math.acos(a);break;
-        case 'atan':r=D?Math.atan(a)*180/PI:Math.atan(a);break;
+          r=fromRad(Math.acos(a));break;
+        case 'atan':r=fromRad(Math.atan(a));break;
+        case 'sinh':r=HYPF.sinh(a);break;
+        case 'cosh':r=HYPF.cosh(a);break;
+        case 'tanh':r=HYPF.tanh(a);break;
+        case 'asinh':r=HYPF.asinh(a);break;
+        case 'acosh':
+          if(a<1)throw new Error('cosh⁻¹ يقبل قيمًا ≥ 1 فقط');
+          r=HYPF.acosh(Math.max(a,1));break;
+        case 'atanh':
+          if(a<=-1||a>=1)throw new Error('tanh⁻¹ يقبل قيمًا بين −1 و 1 فقط');
+          r=HYPF.atanh(a);break;
         case 'ln':
           if(a<=0)throw new Error('ln يقبل أعدادًا موجبة فقط');
           r=Math.log(a);break;
         case 'log':
           if(a<=0)throw new Error('log يقبل أعدادًا موجبة فقط');
           r=Math.log10?Math.log10(a):Math.log(a)/Math.LN10;break;
+        case 'log2':
+          if(a<=0)throw new Error('log₂ يقبل أعدادًا موجبة فقط');
+          r=Math.log(a)/Math.LN2;break;
         case 'sqrt':
           if(a<0)throw new Error('لا جذر تربيعي لعدد سالب في الأعداد الحقيقية');
           r=Math.sqrt(a);break;
         case 'cbrt':r=Math.cbrt?Math.cbrt(a):(a<0?-Math.pow(-a,1/3):Math.pow(a,1/3));break;
         case 'abs':r=Math.abs(a);break;
         case 'exp':r=Math.exp(a);break;
+        case 'round':r=Math.round(a);break;
+        case 'floor':r=Math.floor(a);break;
+        case 'ceil':r=Math.ceil(a);break;
       }
       st.push(cleanNum(r));continue;
     }
@@ -435,6 +480,24 @@ function evalRPN(R){
         case 'mod':
           if(b===0)throw new Error('mod لا يقبل مقامًا صفريًا');
           r2=((a2%b)+b)%b;break;
+        case 'npr':
+          if(!isInt(a2)||!isInt(b)||b<0||a2<b)throw new Error('nPr لأعداد صحيحة مع r بين 0 و n');
+          if(b>500)throw new Error('r كبيرة جدًا للحساب');
+          var p=1;for(var q3=0;q3<b;q3++)p*=(a2-q3);
+          r2=p;break;
+        case 'ncr':
+          if(!isInt(a2)||!isInt(b)||b<0||a2<b)throw new Error('nCr لأعداد صحيحة مع r بين 0 و n');
+          var rr=Math.min(b,a2-b);
+          if(rr>500)throw new Error('القيم كبيرة جدًا للحساب');
+          var c=1;for(var q4=1;q4<=rr;q4++)c=c*(a2-rr+q4)/q4;
+          r2=Math.round(cleanNum(c));break;
+        case 'gcd':
+          if(!isInt(a2)||!isInt(b))throw new Error('gcd لأعداد صحيحة');
+          r2=gcdInt(a2,b);break;
+        case 'lcm':
+          if(!isInt(a2)||!isInt(b))throw new Error('lcm لأعداد صحيحة');
+          var g2=gcdInt(a2,b);
+          r2=(g2===0)?0:Math.abs(a2/g2*b);break;
       }
       st.push(cleanNum(r2));continue;
     }
@@ -445,35 +508,53 @@ function evalRPN(R){
 function evaluate(s){return evalRPN(toRPN(tokenize(s)))}
 
 /* ================= بناء لوحة المفاتيح ================= */
-var inv=false,fnBtns=[],mode='sci';
+var inv=false,hyp=false,fnBtns=[],mode='sci',invBtn=null,hypBtn=null;
 var FNDEF={
-  sin:{l:'sin',i:'sin(',il:'sin⁻¹',ii:'asin('},
-  cos:{l:'cos',i:'cos(',il:'cos⁻¹',ii:'acos('},
-  tan:{l:'tan',i:'tan(',il:'tan⁻¹',ii:'atan('},
+  sin:{l:'sin',i:'sin(',il:'sin⁻¹',ii:'asin(',hl:'sinh',hi:'sinh(',hil:'sinh⁻¹',hii:'asinh('},
+  cos:{l:'cos',i:'cos(',il:'cos⁻¹',ii:'acos(',hl:'cosh',hi:'cosh(',hil:'cosh⁻¹',hii:'acosh('},
+  tan:{l:'tan',i:'tan(',il:'tan⁻¹',ii:'atan(',hl:'tanh',hi:'tanh(',hil:'tanh⁻¹',hii:'atanh('},
   ln:{l:'ln',i:'ln(',il:'eˣ',ii:'exp('},
   log:{l:'log',i:'log(',il:'10ˣ',ii:'10^('},
+  log2:{l:'log₂',i:'log2(',il:'2ˣ',ii:'2^('},
   sqrt:{l:'√',i:'√(',il:'∛',ii:'∛('},
-  sq:{l:'x²',i:'^2',il:'x³',ii:'^3',ap:true},
-  pow:{l:'xʸ',i:'^',il:'xʸ',ii:'^',ap:true}
+  sq:{l:'x²',i:'^2',il:'x³',ii:'^3',ap:1},
+  pow:{l:'xʸ',i:'^',il:'xʸ',ii:'^',ap:1},
+  npr:{l:'nPr',i:' nPr ',il:'nCr',ii:' nCr ',ap:1},
+  gcd:{l:'gcd',i:' gcd ',il:'lcm',ii:' lcm ',ap:1},
+  floor:{l:'floor',i:'floor(',il:'ceil',ii:'ceil('}
 };
 var KEYS_SCI=[
-  [{k:'inv',l:'INV',cls:'k-inv'},{k:'fn',v:'sin'},{k:'fn',v:'cos'},{k:'fn',v:'tan'},{k:'fn',v:'ln'},{k:'fn',v:'log'}],
-  [{k:'fn',v:'sqrt'},{k:'fn',v:'sq'},{k:'fn',v:'pow'},{k:'recip',l:'1/x',cls:'k-fn'},{k:'ch',v:'!',cls:'k-fn'},{k:'ch',v:' mod ',op:1,l:'mod',cls:'k-fn'}],
-  [{k:'ch',v:'7'},{k:'ch',v:'8'},{k:'ch',v:'9'},{k:'ch',v:'÷',op:1,cls:'k-op'},{k:'ch',v:'(',cls:'k-fn'},{k:'ac',l:'AC',cls:'k-ac'}],
-  [{k:'ch',v:'4'},{k:'ch',v:'5'},{k:'ch',v:'6'},{k:'ch',v:'×',op:1,cls:'k-op'},{k:'ch',v:')',cls:'k-fn'},{k:'back',l:'⌫',cls:'k-back'}],
-  [{k:'ch',v:'1'},{k:'ch',v:'2'},{k:'ch',v:'3'},{k:'ch',v:'−',op:1,cls:'k-op'},{k:'pct',l:'%',cls:'k-fn'},{k:'neg',l:'±',cls:'k-fn'}],
-  [{k:'ch',v:'0'},{k:'ch',v:'.'},{k:'ans',l:'ans',cls:'k-fn'},{k:'ch',v:'+',op:1,cls:'k-op'},{k:'eq',l:'=',cls:'k-eq',span:2}]
+ [{k:'inv',l:'INV',cls:'k-tgl sm'},{k:'hyp',l:'HYP',cls:'k-tgl sm'},
+  {k:'fn',v:'sin',cls:'k-fn sm'},{k:'fn',v:'cos',cls:'k-fn sm'},
+  {k:'fn',v:'tan',cls:'k-fn sm'},{k:'fn',v:'ln',cls:'k-fn sm'}],
+ [{k:'fn',v:'sqrt',cls:'k-fn sm'},{k:'fn',v:'sq',cls:'k-fn sm'},
+  {k:'fn',v:'pow',cls:'k-fn sm'},{k:'recip',l:'1/x',cls:'k-fn sm'},
+  {k:'ch',v:'!',cls:'k-fn sm'},{k:'fn',v:'log',cls:'k-fn sm'}],
+ [{k:'fn',v:'log2',cls:'k-fn sm'},{k:'ch',v:' mod ',op:1,l:'mod',cls:'k-fn sm'},
+  {k:'fn',v:'npr',cls:'k-fn sm'},{k:'fn',v:'gcd',cls:'k-fn sm'},
+  {k:'ch',v:'×10^(',op:1,l:'×10ˣ',cls:'k-fn sm'},{k:'ran',l:'Ran#',cls:'k-fn sm'}],
+ [{k:'ch',v:'π',cls:'k-fn sm'},{k:'ch',v:'e',cls:'k-fn sm'},
+  {k:'ch',v:'φ',cls:'k-fn sm'},{k:'ch',v:'abs(',l:'abs',cls:'k-fn sm'},
+  {k:'ch',v:'round(',l:'round',cls:'k-fn sm'},{k:'fn',v:'floor',cls:'k-fn sm'}],
+ [{k:'ch',v:'7'},{k:'ch',v:'8'},{k:'ch',v:'9'},{k:'ch',v:'÷',op:1,cls:'k-op'},
+  {k:'ch',v:'(',cls:'k-fn'},{k:'ac',l:'AC',cls:'k-ac'}],
+ [{k:'ch',v:'4'},{k:'ch',v:'5'},{k:'ch',v:'6'},{k:'ch',v:'×',op:1,cls:'k-op'},
+  {k:'ch',v:')',cls:'k-fn'},{k:'back',l:'⌫',cls:'k-back'}],
+ [{k:'ch',v:'1'},{k:'ch',v:'2'},{k:'ch',v:'3'},{k:'ch',v:'−',op:1,cls:'k-op'},
+  {k:'pct',l:'%',cls:'k-fn'},{k:'neg',l:'±',cls:'k-fn'}],
+ [{k:'ch',v:'0'},{k:'ch',v:'.'},{k:'ans',l:'ans',cls:'k-fn'},
+  {k:'ch',v:'+',op:1,cls:'k-op'},{k:'eq',l:'=',cls:'k-eq',span:2}]
 ];
 var KEYS_BAS=[
-  [{k:'ac',l:'AC',cls:'k-ac'},{k:'back',l:'⌫',cls:'k-back'},{k:'pct',l:'%',cls:'k-fn'},{k:'ch',v:'÷',op:1,cls:'k-op'}],
-  [{k:'ch',v:'7'},{k:'ch',v:'8'},{k:'ch',v:'9'},{k:'ch',v:'×',op:1,cls:'k-op'}],
-  [{k:'ch',v:'4'},{k:'ch',v:'5'},{k:'ch',v:'6'},{k:'ch',v:'−',op:1,cls:'k-op'}],
-  [{k:'ch',v:'1'},{k:'ch',v:'2'},{k:'ch',v:'3'},{k:'ch',v:'+',op:1,cls:'k-op'}],
-  [{k:'neg',l:'±',cls:'k-fn'},{k:'ch',v:'0'},{k:'ch',v:'.'},{k:'eq',l:'=',cls:'k-eq'}]
+ [{k:'ac',l:'AC',cls:'k-ac'},{k:'back',l:'⌫',cls:'k-back'},{k:'pct',l:'%',cls:'k-fn'},{k:'ch',v:'÷',op:1,cls:'k-op'}],
+ [{k:'ch',v:'7'},{k:'ch',v:'8'},{k:'ch',v:'9'},{k:'ch',v:'×',op:1,cls:'k-op'}],
+ [{k:'ch',v:'4'},{k:'ch',v:'5'},{k:'ch',v:'6'},{k:'ch',v:'−',op:1,cls:'k-op'}],
+ [{k:'ch',v:'1'},{k:'ch',v:'2'},{k:'ch',v:'3'},{k:'ch',v:'+',op:1,cls:'k-op'}],
+ [{k:'neg',l:'±',cls:'k-fn'},{k:'ch',v:'0'},{k:'ch',v:'.'},{k:'eq',l:'=',cls:'k-eq'}]
 ];
 function buildKeypad(){
   var kp=$('#keypad');
-  kp.innerHTML='';fnBtns=[];inv=false;
+  kp.innerHTML='';fnBtns=[];inv=false;hyp=false;invBtn=null;hypBtn=null;
   var KEYS=(mode==='sci')?KEYS_SCI:KEYS_BAS;
   kp.className='keypad '+(mode==='sci'?'k6':'k4');
   KEYS.forEach(function(row){
@@ -486,20 +567,31 @@ function buildKeypad(){
       if(key.v!==undefined)b.dataset.val=key.v;
       if(key.op)b.dataset.op='1';
       b.textContent=key.l||((key.v===' mod ')?'mod':key.v);
-      if(key.k==='fn'){b.textContent=FNDEF[key.v].l;fnBtns.push({el:b,d:FNDEF[key.v]})}
+      if(key.k==='fn'){fnBtns.push({el:b,d:FNDEF[key.v]})}
+      if(key.k==='inv')invBtn=b;
+      if(key.k==='hyp')hypBtn=b;
       kp.appendChild(b);
     });
   });
+  applyLabels();
 }
-function applyInv(){
-  fnBtns.forEach(function(fb){fb.el.textContent=inv?fb.d.il:fb.d.l});
-  var ib=$('.k-inv');if(ib)ib.classList.toggle('on',inv);
+function applyLabels(){
+  fnBtns.forEach(function(fb){
+    var d=fb.d,l=d.l;
+    if(hyp&&d.hl){l=inv?d.hil:d.hl}
+    else if(inv&&d.il!==undefined){l=d.il}
+    fb.el.textContent=l;
+  });
+  if(invBtn)invBtn.classList.toggle('on',inv);
+  if(hypBtn)hypBtn.classList.toggle('on',hyp);
+  $('#bInv').hidden=!inv;
+  $('#bHyp').hidden=!hyp;
 }
 
 /* ================= منطق الإدخال ================= */
 function trimOp(){
   var e=Calc.expr;
-  if(/ mod $/.test(e))return e.slice(0,-5);
+  if(/\s(?:nPr|nCr|gcd|lcm|mod)\s$/.test(e))return e.replace(/\s(?:nPr|nCr|gcd|lcm|mod)\s$/,'');
   if(/[+\-−×÷^]$/.test(e))return e.slice(0,-1);
   return e;
 }
@@ -514,13 +606,15 @@ function insert(ch,opts){
   }
   update();
 }
+var FNRE=/^(?:a?(?:sin|cos|tan)h?|ln|log2?|sqrt|cbrt|abs|exp|round|floor|ceil)\($/;
 function backspace(){
   var e=Calc.expr;
   if(!e)return;
-  if(/^(?:sin|cos|tan|asin|acos|atan|ln|log|sqrt|cbrt|abs|exp|10)\^\?\($/.test(e)||/[√∛]\($/.test(e)||/10\^\($/.test(e)||/^(?:sin|cos|tan|asin|acos|atan|ln|log|sqrt|cbrt|abs|exp)\($/.test(e)){
-    Calc.expr=e.replace(/10\^\($/,'').replace(/^(?:sin|cos|tan|asin|acos|atan|ln|log|sqrt|cbrt|abs|exp)\($/,'').replace(/[√∛]\($/,'');
+  if(/×10\^\($/.test(e)){Calc.expr=e.slice(0,-5);return}
+  if(FNRE.test(e)||/[√∛]\($/.test(e)){
+    Calc.expr=e.replace(FNRE,'').replace(/[√∛]\($/,'');
   }
-  else if(/ mod $/.test(e))Calc.expr=e.slice(0,-5);
+  else if(/\s(?:nPr|nCr|gcd|lcm|mod)\s$/.test(e))Calc.expr=e.replace(/\s(?:nPr|nCr|gcd|lcm|mod)\s$/,'');
   else Calc.expr=e.slice(0,-1);
 }
 function curNumber(){var m=Calc.expr.match(/(\d+\.?\d*)$/);return m?m[1]:null}
@@ -549,7 +643,7 @@ function update(){
   }
   sm.scrollLeft=sm.scrollWidth;
   bg.scrollLeft=bg.scrollWidth;
-  $('#bDeg').textContent=Calc.deg?'DEG':'RAD';
+  $('#bDeg').textContent=Calc.ang==='deg'?'DEG':(Calc.ang==='grad'?'GRAD':'RAD');
   $('#bM').hidden=(Mem.v===0);
 }
 function doEq(){
@@ -573,8 +667,8 @@ function doEq(){
   update();
 }
 
-/* ================= العمليات الخاصة (سلوك الحاسبة الحقيقية) ================= */
-/* النسبة المئوية: بعد + أو − تُحسب نسبةً من القيمة السابقة، وبعد × ÷ mod تُقسم على 100 */
+/* ================= العمليات الخاصة ================= */
+/* النسبة المئوية: بعد + أو − نسبة من القيمة السابقة، وبعد × ÷ mod ونحوها تُقسم على 100 */
 function doPercent(){
   if(Calc.done){
     if(Calc.lastAns!==null){Calc.expr=fmt(Calc.lastAns/100);Calc.done=false;update()}
@@ -583,7 +677,7 @@ function doPercent(){
   var numStr=curNumber();
   if(!numStr)return;
   var e=Calc.expr,num=parseFloat(numStr),before=e.slice(0,e.length-numStr.length);
-  var tailOp=before.match(/(?: mod |[+−×÷])\s*$/);
+  var tailOp=before.match(/(?:\s(?:nPr|nCr|gcd|lcm|mod)\s|[+−×÷])\s*$/);
   var op=null,prefix=before;
   if(tailOp){op=tailOp[0].trim();prefix=before.slice(0,before.length-tailOp[0].length)}
   var val;
@@ -595,7 +689,7 @@ function doPercent(){
   Calc.expr=(prefix?prefix:'')+(tailOp?tailOp[0]:'')+fmt(val);
   update();
 }
-/* عكس إشارة الرقم الجاري أو النتيجة */
+/* عكس الإشارة */
 function doNeg(){
   if(Calc.done){
     if(Calc.lastAns!==null){
@@ -639,7 +733,6 @@ function memDo(kind){
     }
     update();return;
   }
-  if(kind==='abs'){insert('abs(');return}
   var v=curValue();
   if(v===null){toast('لا توجد قيمة حالية للذاكرة');return}
   Mem.v+=(kind==='mplus')?v:-v;
@@ -651,16 +744,18 @@ function memDo(kind){
 function onKey(b){
   vibrate();
   var kind=b.dataset.kind,val=b.dataset.val;
-  if(kind==='inv'){inv=!inv;applyInv();return}
+  if(kind==='inv'){inv=!inv;applyLabels();return}
+  if(kind==='hyp'){hyp=!hyp;applyLabels();return}
   if(kind==='fn'){
-    var d=FNDEF[val];
-    insert(inv?d.ii:d.i,{ap:d.ap});
+    var d=FNDEF[val],ins=d.i,ap=!!d.ap;
+    if(hyp&&d.hl)ins=inv?d.hii:d.hi;
+    else if(inv&&d.ii!==undefined)ins=d.ii;
+    insert(ins,{ap:ap});
     return;
   }
   if(kind==='ac'){Calc.expr='';Calc.done=false;Calc.lastEq='';update();return}
   if(kind==='back'){
-    if(Calc.done&&Calc.lastAns===null){Calc.done=false;Calc.expr=''}
-    else if(Calc.done){Calc.done=false}
+    if(Calc.done){Calc.done=false;if(Calc.lastAns===null){Calc.expr='';update();return}}
     backspace();update();return;
   }
   if(kind==='eq'){doEq();return}
@@ -677,6 +772,16 @@ function onKey(b){
   if(kind==='neg'){doNeg();return}
   if(kind==='pct'){doPercent();return}
   if(kind==='recip'){doRecip();return}
+  if(kind==='ran'){
+    var rv=fmt(Math.round(Math.random()*1000000)/1000000);
+    if(Calc.done){Calc.done=false;Calc.expr=rv}
+    else{
+      var cn=curNumber();
+      if(cn)Calc.expr=Calc.expr.slice(0,Calc.expr.length-cn.length)+rv;
+      else Calc.expr+=rv;
+    }
+    update();return;
+  }
   if(kind==='ch'){
     if(val==='.'){
       if(Calc.done){insert('0.');return}
@@ -721,7 +826,7 @@ function setMode(m){
   buildKeypad();
 }
 function setAng(a){
-  Calc.deg=(a==='deg');
+  Calc.ang=a;
   $$('#angSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.a===a)});
   update();
 }
