@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#EFECE2">
+<meta name="description" content="شروط الاستخدام وسياسة الخصوصية لموقع المسطرة — الحاسبة العلمية للطلاب.">
+<title>المسطرة — الشروط وسياسة الخصوصية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EFECE2; --grid:rgba(35,39,32,.05);
+  --body:#FCFAF4; --ink:#242822; --ink2:#71756A;
+  --line:#E3DDCC; --line2:#CBC5B0;
+  --op:#E2ECE4; --opink:#175C46;
+  --ac:#F8EAE0; --acink:#B3401A;
+  --mono:'IBM Plex Mono',ui-monospace,'Courier New',monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#191C17; --grid:rgba(255,255,255,.033);
+    --body:#232721; --ink:#E6E8DE; --ink2:#9BA190;
+    --line:#2F332C; --line2:#3D423A;
+    --op:#1F3A2E; --opink:#8FD3AE;
+    --ac:#3A2A22; --acink:#E0A183;
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  color:var(--ink);background-color:var(--bg);line-height:1.8;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.page{max-width:780px;margin:0 auto;padding:22px 16px 44px}
+
+header.top{display:flex;align-items:center;gap:12px;padding:2px 4px 18px}
+header.top h1{font-size:21px;font-weight:700}
+header.top h1 em{font-style:normal;color:var(--opink)}
+header.top p{font-size:12.5px;color:var(--ink2)}
+
+.doc{background:var(--body);border:1px solid var(--line2);border-radius:18px;
+  padding:24px 24px 18px;box-shadow:0 28px 50px -24px rgba(25,30,24,.38);
+  position:relative;overflow:hidden}
+.stamp{position:absolute;top:18px;left:20px;transform:rotate(-7deg);
+  border:2px solid var(--acink);color:var(--acink);border-radius:8px;
+  padding:5px 14px 4px;font-size:12px;font-weight:700;opacity:.75;
+  pointer-events:none;box-shadow:inset 0 0 0 1px var(--body),inset 0 0 0 2px var(--acink)}
+.doc-title{font-size:23px;font-weight:700;letter-spacing:-.2px;max-width:70%}
+.doc-sub{font-size:13px;color:var(--ink2);margin:4px 0 18px;max-width:75%}
+.facts{border-top:1px solid var(--line);margin-bottom:6px}
+.facts .kv{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  border-bottom:1px dotted var(--line2);padding:9px 0;font-size:13.5px}
+.facts .kv span{color:var(--ink2)}
+.facts .kv b{font-weight:500;color:var(--opink);text-align:left}
+
+.toc{background:var(--body);border:1px solid var(--line2);border-radius:18px;
+  padding:18px 24px;box-shadow:0 28px 50px -24px rgba(25,30,24,.38);margin:18px 0}
+.toc h2{font-size:14px;color:var(--ink2);font-weight:500;margin-bottom:10px}
+.toc-cols{display:grid;grid-template-columns:1fr 1fr;gap:4px 22px}
+@media(max-width:560px){.toc-cols{grid-template-columns:1fr}}
+.toc-cols a{display:flex;align-items:baseline;gap:9px;text-decoration:none;
+  color:var(--ink);font-size:13.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.toc-cols a:hover{color:var(--opink)}
+.toc-cols a b{font-family:var(--mono);font-size:11.5px;color:var(--opink);min-width:20px}
+
+.part{display:flex;align-items:center;gap:14px;margin:30px 0 6px}
+.part h2{font-size:18px;font-weight:700;white-space:nowrap}
+.part::after{content:'';flex:1;height:1px;background:var(--line2)}
+.sec{scroll-margin-top:14px;padding:14px 2px 16px;border-bottom:1px dotted var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h3{display:flex;align-items:center;gap:11px;font-size:15.5px;font-weight:700;margin-bottom:6px}
+.sec .n{font-family:var(--mono);font-size:12px;min-width:27px;height:27px;
+  border:1.5px solid var(--opink);color:var(--opink);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.sec p{font-size:14.5px;color:var(--ink);margin:7px 0}
+.sec p em{font-style:normal;color:var(--opink);font-weight:500}
+.sec ul{margin:7px 24px 4px 0;font-size:14.5px}
+.sec li{margin:4px 0}
+.sec li::marker{color:var(--opink)}
+code{font-family:var(--mono);font-size:12.5px;background:var(--op);color:var(--opink);
+  border-radius:6px;padding:1px 7px;direction:ltr;display:inline-block}
+
+.backbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+.btn{display:flex;align-items:center;gap:8px;background:var(--body);
+  border:1px solid var(--line2);border-radius:11px;padding:10px 18px;
+  font-size:14px;color:var(--ink);text-decoration:none;font-weight:500;
+  box-shadow:0 2.5px 0 var(--line2)}
+.btn:active{transform:translateY(2px);box-shadow:0 0 0 var(--line2)}
+.btn.main{background:var(--opink);color:#F4FAF5;border-color:transparent;
+  box-shadow:0 2.5px 0 #10503B}
+.btn.main:active{box-shadow:0 0 0 #10503B}
+footer{font-size:11.5px;color:var(--ink2);text-align:center;margin-top:24px}
+footer a{color:var(--opink);text-decoration:none}
+
+@media print{
+  body{background:#fff;color:#111}
+  header.top,.backbar,footer,.toc{display:none}
+  .doc,.stamp{box-shadow:none;border-color:#bbb}
+  .sec{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="top">
+  <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
+    <path d="M10 8 L10 40 L42 8 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M10 22h6 M10 28h5 M10 34h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <path d="M20 8v5 M28 8v5 M36 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+  </svg>
+  <div>
+    <h1>المسطرة <em>— الوثيقة القانونية</em></h1>
+    <p>شروط الاستخدام وسياسة الخصوصية الخاصة بموقع الحاسبة العلمية.</p>
+  </div>
+</header>
+
+<div class="doc">
+  <div class="stamp">وثيقة رسمية</div>
+  <div class="doc-title">شروط الاستخدام وسياسة الخصوصية</div>
+  <div class="doc-sub">تنظّم هذه الوثيقة استخدامك لموقع «المسطرة — الحاسبة العلمية الكاملة» وما يترتب عليه من حقوق وواجبات.</div>
+  <div class="facts">
+    <div class="kv"><span>تنطبق على</span><b>موقع المسطرة — صفحة الحاسبة</b></div>
+    <div class="kv"><span>آخر تحديث</span><b>يونيو ٢٠٢٥</b></div>
+    <div class="kv"><span>البيانات التي نجمعها عنك</span><b>لا شيء إطلاقًا</b></div>
+    <div class="kv"><span>مكان حفظ بياناتك</span><b>متصفح جهازك فقط</b></div>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>محتويات الوثيقة — انقر أي بند للانتقال إليه</h2>
+  <div class="toc-cols">
+    <div>
+      <a href="#u1"><b>١</b> قبول الشروط</a>
+      <a href="#u2"><b>٢</b> طبيعة الخدمة</a>
+      <a href="#u3"><b>٣</b> دقة النتائج والمسؤولية التعليمية</a>
+      <a href="#u4"><b>٤</b> الاستخدام المسموح</a>
+      <a href="#u5"><b>٥</b> الملكية الفكرية</a>
+      <a href="#u6"><b>٦</b> خدمات أطراف ثالثة</a>
+      <a href="#u7"><b>٧</b> الروابط الخارجية</a>
+      <a href="#u8"><b>٨</b> إخلاء الضمان والمسؤولية</a>
+      <a href="#u9"><b>٩</b> تغييرات الشروط</a>
+    </div>
+    <div>
+      <a href="#v1"><b>١</b> الخلاصة أولًا</a>
+      <a href="#v2"><b>٢</b> الحسابات والسجل على جهازك</a>
+      <a href="#v3"><b>٣</b> ملفات تعريف الارتباط</a>
+      <a href="#v4"><b>٤</b> طلبات الشبكة عند الفتح</a>
+      <a href="#v5"><b>٥</b> الاستضافة وسجلات المنصة</a>
+      <a href="#v6"><b>٦</b> الأطفال والقاصرون</a>
+      <a href="#v7"><b>٧</b> مشاركة البيانات وبيعها</a>
+      <a href="#v8"><b>٨</b> حقوقك</a>
+      <a href="#v9"><b>٩</b> تغييرات السياسة</a>
+      <a href="#v10"><b>١٠</b> التواصل</a>
+    </div>
+  </div>
+</nav>
+
+<div class="part"><h2>القسم الأول: شروط الاستخدام</h2></div>
+
+<div class="sec" id="u1">
+  <h3><span class="n">١</span> قبول الشروط</h3>
+  <p>باستخدامك موقع «المسطرة» فأنت تقرّ بأنك قرأت هذه الوثيقة وفهمت ما فيها وتوافق عليه. إن لم توافق على أي بند منها، فيرجى التوقف عن استخدام الموقع.</p>
+</div>
+
+<div class="sec" id="u2">
+  <h3><span class="n">٢</span> طبيعة الخدمة</h3>
+  <p>الموقع أداة تعليمية مجانية — حاسبة علمية كاملة بوضعين (علمي وأساسي) وأكثر من خمسين عملية ووظيفة — تُقدَّم كصفحات ويب ثابتة عبر منصة GitHub Pages، دون تسجيل، وبدون اشتراك أو رسوم، ومتاحة لكل طالب ومعلم وولي أمر في أي مرحلة دراسية.</p>
+</div>
+
+<div class="sec" id="u3">
+  <h3><span class="n">٣</span> دقة النتائج والمسؤولية التعليمية</h3>
+  <p>تُنفَّذ جميع العمليات الحسابية داخل متصفحك مباشرة وفق معايير الدقة القياسية في لغات الويب، وقد تظهر فروق تقريب متناهية الصغر في الأعداد الكبيرة جدًا أو الصغيرة جدًا (كما في أي حاسبة علمية).</p>
+  <p>النتائج <em>وسيلة مساعدة</em> وليست بديلًا عن المراجعة: تحقّق من خطواتك المهمة في الواجبات والامتحانات قبل اعتماد النتيجة، وإذا اختلفت النتيجة عن توقعك فراجع خطوات الحل مع معلمك — فاكتشاف سبب الاختلاف جزء من التعلّم.</p>
+</div>
+
+<div class="sec" id="u4">
+  <h3><span class="n">٤</span> الاستخدام المسموح</h3>
+  <p>يُسمح بالاستخدام الشخصي والتعليمي داخل المدارس والمنازل بحرية كاملة. ويُحظر صراحة:</p>
+  <ul>
+    <li>استخدام الموقع لأي غرض غير قانوني أو ضار.</li>
+    <li>إعادة نشر الموقع أو ملفاته على أنه عمل من إنشاء جهة أخرى.</li>
+    <li>إتلاف ملفات الموقع أو إساءة استغلال منصة استضافته.</li>
+  </ul>
+</div>
+
+<div class="sec" id="u5">
+  <h3><span class="n">٥</span> الملكية الفكرية</h3>
+  <p>تصميم الواجهة والمحتوى وملفات الموقع من إعداد مالكه وتُنشر عبر GitHub Pages. يجوز لك الاستفادة منها والاستشهاد بها في أعمالك الدراسية مع الإشارة إلى المصدر. أما أسماء الخطوط والخدمات المذكورة في الموقع فهي علامات ملك أصحابها.</p>
+</div>
+
+<div class="sec" id="u6">
+  <h3><span class="n">٦</span> خدمات أطراف ثالثة</h3>
+  <p>يعتمد الموقع على عنصرين خارجيين فقط، ولا علاقة له بأي جهة أخرى:</p>
+  <ul>
+    <li><em>الاستضافة:</em> منصة GitHub Pages التي تقدّم الملفات لزوّار الموقع.</li>
+    <li><em>الخطوط:</em> عائلة IBM Plex من Google Fonts، يطلبها متصفحك اختياريًا عند التحميل — ويعمل الموقع بكل وظائفه حتى دون تحميلها، بخطوط النظام البديلة.</li>
+  </ul>
+</div>
+
+<div class="sec" id="u7">
+  <h3><span class="n">٧</span> الروابط الخارجية</h3>
+  <p>لا يحتوي الموقع حاليًا على روابط لمواقع خارجية سوى صفحة الحاسبة وهذه الوثيقة. وإذا أضيفت روابط مستقبلًا فنحن غير مسؤولين عن محتوى المواقع المرتبطة أو سياساتها.</p>
+</div>
+
+<div class="sec" id="u8">
+  <h3><span class="n">٨</span> إخلاء الضمان والمسؤولية</h3>
+  <p>يُقدَّم الموقع «كما هو» دون ضمانات من أي نوع، صريحة أو ضمنية. لا يتحمل مالك الموقع أي مسؤولية عن أضرار مباشرة أو غير مباشرة — مادية أو دراسية — تنتج عن الاعتماد على نتائج الحسابات أو عن تعذّر الوصول إلى الخدمة مؤقتًا أو دائمًا.</p>
+</div>
+
+<div class="sec" id="u9">
+  <h3><span class="n">٩</span> تغييرات الشروط</h3>
+  <p>قد تُحدَّث هذه الشروط عند تطوير الموقع، ويظهر تاريخ آخر تحديث في أعلى الوثيقة. استمرارك في استخدام الموقع بعد نشر نسخة محدَّثة يُعدّ موافقة عليها.</p>
+</div>
+
+<div class="part"><h2>القسم الثاني: سياسة الخصوصية</h2></div>
+
+<div class="sec" id="v1">
+  <h3><span class="n">١</span> الخلاصة أولًا</h3>
+  <p><em>لا نجمع أي بيانات شخصية.</em> لا أسماء، لا عناوين بريد، لا حسابات مستخدمين، لا نشرات بريدية، لا أدوات تحليل أو تتبّع، ولا إعلانات. الموقع صفحة تعمل في متصفحك وحسب.</p>
+</div>
+
+<div class="sec" id="v2">
+  <h3><span class="n">٢</span> الحسابات والسجل على جهازك فقط</h3>
+  <p>كل عملية حسابية تُنفَّذ داخل متصفحك ولا تُرسل نتيجتها إلى أي خادم على الإطلاق. أما سجل آخر ٦٠ عملية فيُخزَّن في التخزين المحلي للمتصفح <code>localStorage</code> على جهازك أنت، ولا يستطيع أي طرف — بمن فيهم نحن — الوصول إليه عن بُعد.</p>
+  <p>يمكنك مسحه في أي وقت من زر <em>«مسح الكل»</em> في لوحة السجل داخل الحاسبة، أو بمسح بيانات الموقع من إعدادات متصفحك.</p>
+</div>
+
+<div class="sec" id="v3">
+  <h3><span class="n">٣</span> ملفات تعريف الارتباط (Cookies)</h3>
+  <p>الموقع لا يضع أي ملفات تعريف ارتباط خاصة به، ولا يستخدم بكسلات تتبع أو بصمات متصفح.</p>
+</div>
+
+<div class="sec" id="v4">
+  <h3><span class="n">٤</span> طلبات الشبكة عند فتح الصفحة</h3>
+  <p>عند تحميل الموقع يطلب متصفحك عائلة خطوط IBM Plex من خدمة Google Fonts، ويرافق هذا الطلب بيانات تقنية قياسية (مثل عنوان IP) تخضع لسياسة خصوصية Google المنشورة. إن أردت تجنّب هذا الطلب كليًا فيمكنك حظر مجال الخطوط في متصفحك أو في أداة الحماية لديك — وسيعمل الموقع كاملًا بخطوط بديلة دون أي نقص.</p>
+</div>
+
+<div class="sec" id="v5">
+  <h3><span class="n">٥</span> الاستضافة وسجلات المنصة</h3>
+  <p>يُستضاف الموقع على منصة GitHub Pages، وقد تسجّل المنصة — كما هو معتاد في أي خدمة استضافة ويب — بيانات تقنية قياسية عن الطلبات الواصلة (مثل عنوان IP والتوقيت) لأغراض الأمن والتشغيل، وذلك وفق سياسة خصوصية GitHub المنشورة. هذه السجلات تخص المنصة ولا نتحكم بها ولا نطلب منها نسخًا.</p>
+</div>
+
+<div class="sec" id="v6">
+  <h3><span class="n">٦</span> الأطفال والقاصرون</h3>
+  <p>الموقع مناسب لجميع الأعمار — من طالب الابتدائي إلى الجامعة — ولا يجمع أي بيانات حتى من القاصرين، لذا لا حاجة لأي موافقة والدية على معالجة بيانات. ويمكن للوالدين مسح سجل العمليات من زر «مسح الكل» متى شاؤوا.</p>
+</div>
+
+<div class="sec" id="v7">
+  <h3><span class="n">٧</span> مشاركة البيانات وبيعها</h3>
+  <p>لا نشارك ولا نبيع ولا ننقل أي بيانات لأي جهة — ببساطة لأننا لا نجمع أي بيانات أصلًا.</p>
+</div>
+
+<div class="sec" id="v8">
+  <h3><span class="n">٨</span> حقوقك</h3>
+  <ul>
+    <li>مسح سجل الحاسبة فورًا من داخل الموقع.</li>
+    <li>فتح الموقع في وضع التصفح الخفي فلا يُحفظ سجل ولا أي أثر.</li>
+    <li>حظر طلبات الخطوط الخارجية إن كنت تفضّل صفر طلبات لجهات ثالثة.</li>
+  </ul>
+  <p>وبما أنه لا يوجد أي بيان عنك على أي خادم، فلا يوجد ما يمكن طلب نسخته أو حذفه من عندنا.</p>
+</div>
+
+<div class="sec" id="v9">
+  <h3><span class="n">٩</span> تغييرات السياسة</h3>
+  <p>إذا غيّرنا شيئًا في هذه السياسة مستقبلًا — مثل إضافة ميزة تتطلب تخزينًا مختلفًا — سنوثّقه في هذه الصفحة ونحدّث تاريخ آخر تحديث أعلاه.</p>
+</div>
+
+<div class="sec" id="v10">
+  <h3><span class="n">١٠</span> التواصل</h3>
+  <p>الطريق الأسرع للإبلاغ عن خطأ حسابي أو اقتراح تحسين هو صفحة الملاحظات (Issues) في مستودع الموقع على GitHub: <code>github.com/USERNAME/REPO</code></p>
+</div>
+
+</div>
+
+<div class="backbar">
+  <a class="btn" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    العودة إلى الحاسبة
+  </a>
+  <button class="btn main" type="button" onclick="window.print()">طباعة الوثيقة</button>
+</div>
+
+<footer>
+  المسطرة — الحاسبة العلمية الكاملة · <a href="index.html">الصفحة الرئيسية</a>
+</footer>
+
+</div>
+</body>
+</html>
